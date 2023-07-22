@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * I declare that this code was written by me. 
  * I do not copy or allow others to copy my code. 
@@ -6,7 +8,7 @@
  * Student Name: 65937
  * Student ID: {type your id here}
  * Class: {type your class here}
- * Date/Time created: Thursday 20-07-2023 15:16
+ * Date/Time created: Saturday 08-07-2023 14:00
  */
 
 /**
@@ -14,5 +16,49 @@
  *
  */
 public class User {
+	private String username;
+	private String email;
+	private int contact_Number;
+	private String address;
+	private String password;
+	private String preference;
+	private ArrayList<User> Userlist = new ArrayList<User>();
+
+
+public User(String username,String email,int contact_Number,String address,String password) {
+	this.username=username;
+	this.email=email;
+	this.contact_Number=contact_Number;
+	this.password=password;
+	this.address=address;
+	
+}
+
+
+public  String getname() {
+  return username;
+}
+
+public String getEmail() {
+	return email;
+}
+
+public int getContact() {
+	return contact_Number;
+}
+public String getAddress() {
+	return address;
+}
+public boolean register(String username,String email,int contact_Number,String address,String password) {
+	boolean pass= false;
+	if (email.endsWith("@gmail.com")) {
+		Userlist.add(new User(username,email,contact_Number,address,password));
+		pass=true;
+		
+	}
+
+	return pass;
+}
+
 
 }
