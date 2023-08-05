@@ -44,7 +44,7 @@ public class C206_CaseStudy {
 				for (int i = 0; i < list.length; i++) {
 					System.out.println(i + 1 + ":View " + list[i]);
 				}
-				int which = Helper.readInt("Please Enter a number to View:");
+				int which = Helper.readInt("Please Enter a number to :");
 				if (which==1) {
 					addUser(userList,list);
 
@@ -55,9 +55,9 @@ public class C206_CaseStudy {
 			}
 			option =Helper.readInt("Pleasae enter the number: ");
 
-		}
+		}}
 	}
-
+//test 
 	public static void Menu() {
 		System.out.println("Enter 1 for ADD section");
 		System.out.println("Enter 2 for View section");
@@ -82,9 +82,6 @@ public class C206_CaseStudy {
 				System.out.println("Address: "+address);
 			
 			}
-	}
-	
-
 	}
 
 }
