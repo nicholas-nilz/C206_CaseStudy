@@ -49,16 +49,10 @@ public int getContact() {
 public String getAddress() {
 	return address;
 }
-public boolean register(String username,String email,int contact_Number,String address,String password) {
-	boolean pass= false;
-	if (email.endsWith("@gmail.com")) {
-		Userlist.add(new User(username,email,contact_Number,address,password));
-		pass=true;
-		
-	}
-
-	return pass;
+public String getPassword() {
+	return password;
 }
+
 
 
 }

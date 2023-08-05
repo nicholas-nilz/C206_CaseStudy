@@ -14,9 +14,27 @@
  *
  */
 public class Service_Provider {
+	String companyName;
+	String password;
 	String service_category;
 	String SP_location;
-	public Service_Provider(String service_category,String SP_location) {
+	public Service_Provider(String companyName,String password,String service_category,String SP_location) {
+		this.companyName=companyName;
+		this.password=password;
 		this.service_category=service_category;
 		this.SP_location=SP_location;
-	}}
+	}
+	public String getcompanyName() {
+		return companyName;
+	}
+	public String getpassword() {
+		return password;
+	}
+	public String getservice_category() {
+		return service_category;
+	}
+	public String getLocation() {
+		return SP_location;
+	}
+
+}
