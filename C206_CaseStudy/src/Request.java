@@ -18,14 +18,12 @@ import java.util.Date;
 public class Request {
     private String requestService;
     private String requestDescription;
-    private Date requestDate;
     private String requestStatus;
 
-    public Request(String requestService, String requestDescription, String requestDate, String requestStatus) {
+    public Request(String requestService, String requestDescription, String requestStatus) {
         this.requestService = requestService;
         this.requestDescription = requestDescription;
-        this.requestDate = new Date();
-        this.requestStatus = "Pending"; 
+        this.requestStatus = requestStatus; 
     }
 
 
@@ -38,11 +36,7 @@ public class Request {
         return requestDescription;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
-    }
-
-    public String getRequestStatus() {
+ public String getRequestStatus() {
         return requestStatus;
     }
 
@@ -50,4 +44,3 @@ public class Request {
         this.requestStatus = status;
     }
 }
-
