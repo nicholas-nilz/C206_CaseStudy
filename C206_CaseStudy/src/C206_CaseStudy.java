@@ -33,7 +33,13 @@ public class C206_CaseStudy {
 			    }
 			    int which = Helper.readInt("Please Enter a number to Add:");
 			    if (which==1) {
-			     addUser(registeredUsers);     
+			    	String username=Helper.readString("\nPlease enter username: ");
+					String email=Helper.readString("Please enter email: ");
+					int contact=Helper.readInt("Please enter contact number: ");
+					String address=Helper.readString("Please enter address: ");
+					String password=Helper.readString("Please enter password: ");
+					User userADD= new User(username,email,contact,address,password);
+			     addUser(registeredUsers,userADD);     
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
@@ -73,7 +79,15 @@ public class C206_CaseStudy {
 			    }
 			    int which = Helper.readInt("Please Enter a number to Delete:");
 			    if (which==1) {
-			    	deleteUser(registeredUsers);     
+			    	System.out.println("Delete User");
+					Helper.line(80, "-");
+					System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s", "ID","Username","Email","Contact Number","Address"));
+					Helper.line(80, "-");
+					for (int x = 0; x < registeredUsers.size(); x++) {
+						    System.out.println(String.format("%-5d%-20s %-25s %-15d %-25s\n",x+1,registeredUsers.get(x).getname(),registeredUsers.get(x).getEmail(),registeredUsers.get(x).getContact(),registeredUsers.get(x).getAddress()));
+						  }
+					int removeID=Helper.readInt("Please enter the ID to remove:");
+			    	deleteUser(registeredUsers,removeID);     
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
@@ -160,48 +174,44 @@ public class C206_CaseStudy {
 		  Helper.line(80, "-");
 		 }
 	
-	public static void addUser(ArrayList<User> userList) {
+	public static void addUser(ArrayList<User> userList,User userAdd) {
 		
-			String username=Helper.readString("\nPlease enter username: ");
-			String email=Helper.readString("Please enter email: ");
-			int contact=Helper.readInt("Please enter contact number: ");
-			String address=Helper.readString("Please enter address: ");
-			String password=Helper.readString("Please enter password: ");
+		
 			int before =userList.size();
-			userList.add(new User(username, email,contact,address,password));
+			userList.add(userAdd);
 			int after  =userList.size();
 			if(after>before) {
 				System.out.println("\nUser added successfully");
-				System.out.println("Username: "+username);
-				System.out.println("Email: "+email);
-				System.out.println("Contact: "+contact);
-				System.out.println("Address: "+address);
-				System.out.println();
-			
+						
 			}
 	}
-	public static void deleteUser(ArrayList<User> userList) {
-		System.out.println("Delete User");
-		Helper.line(80, "-");
-		System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s", "ID","Username","Email","Contact Number","Address"));
-		Helper.line(80, "-");
-		for(int x=0;x<userList.size();x++) {
-			System.out.println(String.format("%-5d%-20s %-25s %-15d %-25s\n",x+1,userList.get(x).getname(),userList.get(x).getEmail(),userList.get(x).getContact(),userList.get(x).getAddress()));
-		}
-		int removeID=Helper.readInt("Please enter the ID to remove:");
+	public static void deleteUser(ArrayList<User> userList,int removeID) {
+		
 		userList.remove(removeID-1);
 		System.out.println("User remove successfully.");
 }
-	
 	public static void viewAllUser(ArrayList<User> userList) {
-		System.out.println("View all User");
-		Helper.line(80, "-");
-		System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s", "ID","Username","Email","Contact Number","Address"));
-		Helper.line(80, "-");
-		for(int x=0;x<userList.size();x++) {
-			System.out.println(String.format("%-5d%-20s %-25s %-15d %-25s\n",x+1,userList.get(x).getname(),userList.get(x).getEmail(),userList.get(x).getContact(),userList.get(x).getAddress()));
-		}
+		  C206_CaseStudy.setHeader("View all user");
+		  System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s\n", "ID", "Username", "Email", "Contact Number", "Address"));
+
+		String output = "";
+		
+		output+=retrieveUser(userList);
+		System.out.println(output);
 	}
+	
+	
+	
+	 public static String retrieveUser(ArrayList<User> userList) {
+		  // TODO Auto-generated method stub
+		  String output = "";
+		  // write your code here
+		  for (int x = 0; x < userList.size(); x++) {
+
+		   output += String.format("%-5d%-20s %-25s %-15d %-25s\n",x+1,userList.get(x).getname(),userList.get(x).getEmail(),userList.get(x).getContact(),userList.get(x).getAddress());
+		  }
+		  return output;
+		 }
 	
 	
 	
