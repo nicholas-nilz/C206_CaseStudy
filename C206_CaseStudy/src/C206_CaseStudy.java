@@ -24,7 +24,7 @@ public class C206_CaseStudy {
 			  int option = 0;
 			  while (option != 4) {
 			   Menu();
-			   option = Helper.readInt("Pleasae enter the number: ");
+			   option = Helper.readInt("Please enter the number: ");
 
 			   if (option == 1) {
 			    System.out.println("\n");
@@ -43,7 +43,9 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     //
+			     Request r = inputRequest();
+			     C206_CaseStudy.addRequest(requesttList, r);
+				 System.out.println("Request added");
 			    }else if (which==4) {
 			     //
 			    }else if(which==5) {
@@ -64,7 +66,7 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //C206_CaseStudy.viewAppointment(appointmentList);
 			    }else if(which==3) {
-			     //C206_CaseStudy.viewRequest(requestList);
+			     C206_CaseStudy.viewAllRequest(requesttList);
 			    }else if (which==4) {
 			     //C206_CaseStudy.viewServiceProvider(quoteList);
 			    }else if(which==5) {
@@ -91,12 +93,14 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     //
+			     Request r = inputRequest();
+			     C206_CaseStudy.deleteRequest(requesttList, r);
+				 System.out.println("Request deleted");
 			    }else if (which==4) {
 			     //
 			    }else if(which==5) {
 			     quote quoteinsert = inputQuote();
-		     C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
+		         C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
 			     System.out.println("Quote deleted");
 			    }else if(which==6) {
 			     //
@@ -322,42 +326,42 @@ public static Request inputRequest() {
 
 		}
 
-		public static void addRequest(ArrayList<Request> requestList, Request r) {
+		public static void addRequest(ArrayList<Request> requesttList, Request r) {
 			Request service;
-			for (int i = 0; i < requestList.size(); i++) {
-				service = requestList.get(i);
+			for (int i = 0; i < requesttList.size(); i++) {
+				service = requesttList.get(i);
 				if (service.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()))
 					return;
 			}
 			if ((r.getRequestDescription().isEmpty()) || (r.getRequestService().isEmpty())) {
 				return;
 			}
-			requestList.add(r);
+			requesttList.add(r);
 
 		}
 
-		public static String retrieveAllRequest(ArrayList<Request> requestList) {
+		public static String retrieveAllRequest(ArrayList<Request> requesttList) {
 			// TODO Auto-generated method stub
 			String output = "";
 			// write your code here
-			for (int i = 0; i < requestList.size(); i++) {
+			for (int i = 0; i < requesttList.size(); i++) {
 
-				output += String.format("%-20s %-20s %-20s %-20s\n", requestList.get(i).getRequestService(),
-						requestList.get(i).getRequestDescription(), requestList.get(i).getRequestDate(), requestList.get(i).getRequestStatus());
+				output += String.format("%-20s %-20s %-20s %-20s\n", requesttList.get(i).getRequestService(),
+						requesttList.get(i).getRequestDescription(), requesttList.get(i).getRequestDate(), requesttList.get(i).getRequestStatus());
 			}
 			return output;
 		}
 
-		public static void viewAllRequest(ArrayList<Request> requestList) {
+		public static void viewAllRequest(ArrayList<Request> requesttList) {
 			// TODO Auto-generated method stub
 			C206_CaseStudy.setHeader("Request List");
 			String output = String.format("%-20s %-20s %-20s %-20s\n", "Service", "Description", "Date", "Status");
-			output += retrieveAllRequest(requestList);
+			output += retrieveAllRequest(requesttList);
 			System.out.println(output);
 		}
 
-		public static void deleteRequest(ArrayList<Request> requestList, Request requestDelete) {
-			Iterator<Request> iterator = requestList.iterator();
+		public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete) {
+			Iterator<Request> iterator = requesttList.iterator();
 			while (iterator.hasNext()) {
 				Request r = iterator.next();
 				if (r.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
