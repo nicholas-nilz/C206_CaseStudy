@@ -110,8 +110,6 @@ public class C206_CaseStudy {
 		 		 
 		 
 		 
-		 
-		 
 		 else if(Sprint==2) {
 		 String loginSuccess="";
 		 String loginAs="";
@@ -311,6 +309,65 @@ public class C206_CaseStudy {
 	  quoteList.add(quoteinsert);
 	  
 	 }
+	 
+
+public static Request inputRequest() {
+			String service = Helper.readString("Enter service > ");
+			String description = Helper.readString("Enter description > ");
+			String date = Helper.readString("Enter date > ");
+			String status = Helper.readString("Enter status > ");
+
+			Request r = new Request(service, description, date, status);
+			return r;
+
+		}
+
+		public static void addRequest(ArrayList<Request> requestList, Request r) {
+			Request service;
+			for (int i = 0; i < requestList.size(); i++) {
+				service = requestList.get(i);
+				if (service.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()))
+					return;
+			}
+			if ((r.getRequestDescription().isEmpty()) || (r.getRequestService().isEmpty())) {
+				return;
+			}
+			requestList.add(r);
+
+		}
+
+		public static String retrieveAllRequest(ArrayList<Request> requestList) {
+			// TODO Auto-generated method stub
+			String output = "";
+			// write your code here
+			for (int i = 0; i < requestList.size(); i++) {
+
+				output += String.format("%-20s %-20s %-20s %-20s\n", requestList.get(i).getRequestService(),
+						requestList.get(i).getRequestDescription(), requestList.get(i).getRequestDate(), requestList.get(i).getRequestStatus());
+			}
+			return output;
+		}
+
+		public static void viewAllRequest(ArrayList<Request> requestList) {
+			// TODO Auto-generated method stub
+			C206_CaseStudy.setHeader("Request List");
+			String output = String.format("%-20s %-20s %-20s %-20s\n", "Service", "Description", "Date", "Status");
+			output += retrieveAllRequest(requestList);
+			System.out.println(output);
+		}
+
+		public static void deleteRequest(ArrayList<Request> requestList, Request requestDelete) {
+			Iterator<Request> iterator = requestList.iterator();
+			while (iterator.hasNext()) {
+				Request r = iterator.next();
+				if (r.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
+					iterator.remove();
+					System.out.println("Request deleted.");
+					return;
+				}
+			}
+			System.out.println("Request not found.");
+		}
 
 
 }
