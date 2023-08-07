@@ -17,8 +17,8 @@ public class C206_CaseStudyTest {
 		//prepare test data 
 		 user1 =new User("hahan","hahan@gmail.com",90803674,"jalan123","lol123");
 		 user2=new User("jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
-		 r1 = new Request("Painting Service", "Paint living room", "Pending");
-		  r2 = new Request("Carpentry Service", "Install shelves", "Pending");
+		 r1 = new Request("John","Painting Service", "Paint living room", "Pending");
+		  r2 = new Request("Cena","Carpentry Service", "Install shelves", "Pending");
 		userList =new ArrayList<User>();
 		
 		requesttList = new ArrayList<>();
@@ -96,17 +96,19 @@ public class C206_CaseStudyTest {
 	  //fail("Not yet implemented"); 
 	  assertTrue("C206_CaseStudy_SampleTest ",true);
 	 }
+	
+
 	@Test
 	 public void testToCreateRequest() {
-	  Request r = new Request("Plumbing Service", "Fix leaking faucet", "Pending");
+	  Request r = r1;
 	  assertNotNull(r);
-	  assertEquals("Plumbing Service", r.getRequestService());
-	        assertEquals("Fix leaking faucet", r.getRequestDescription());
+	  assertEquals("Painting Service", r.getRequestService());
+	        assertEquals("Paint living room", r.getRequestDescription());
 	        assertEquals("Pending", r.getRequestStatus());
 	 }
 	@Test
     public void testSetStatus() {
-  Request r = new Request("Electrical Service", "Install ceiling fan", "Pending");
+  Request r =r1;
      assertEquals("Pending", r.getRequestStatus()); // Ensure status is initially "Pending"
      
      r.setRequestStatus("Completed"); // Set status to "Completed"
@@ -123,50 +125,59 @@ public class C206_CaseStudyTest {
 	   C206_CaseStudy.addRequest(requesttList, r1);
 	   assertEquals("Check that userList arraylist size is 1", 1, requesttList.size());
 	   assertSame("Check that r1 is added", r1, requesttList.get(0));
-	   
+	    
 	   //Add another item. Test the size of the list is 2? - normal
 	   //The item just added is as same as the second item of the list
 	   C206_CaseStudy.addRequest(requesttList, r2);
 	   assertEquals("Check that userList arraylist size is 2", 2, requesttList.size());
 	   assertSame("Check that r2 is added", r2, requesttList.get(1));
 
-	         Request duplicateRequest = new Request("Painting Service", "Paint living room", "Pending");
+	         Request duplicateRequest = new Request("John","Painting Service", "Paint living room", "Pending");
 	         C206_CaseStudy.addRequest(requesttList, duplicateRequest);
 
 	         // Duplicate request should not be added
 	         assertEquals(2, requesttList.size());
 	     }
-
 	  @Test
 	  public void testRetrieveAllRequest() {
-	      Request r1 = new Request("Plumbing Service", "Fix leaking faucet", "Pending");
-	      Request r2 = new Request("Electrical Service", "Install ceiling fan", "Completed");
-	      requesttList.add(r1);
-	      requesttList.add(r2);
-
-	      String expectedOutput = "Plumbing Service     Fix leaking faucet   Pending\n"
-	              + "Electrical Service   Install ceiling fan  Completed";
-	      System.out.println("!" + expectedOutput);
-	      System.out.println("!" + C206_CaseStudy.retrieveAllRequest(requesttList));
-	      assertEquals(expectedOutput, C206_CaseStudy.retrieveAllRequest(requesttList));
-	  }
+		   // Test if requesttlist is not null but empty -boundary
+		   assertNotNull("Check if there is valid requesttList arraylist to add to", requesttList);
+		   
+		   //test if the list of requesttList retrieved from the C206_CaseStudy is empty - boundary
+		   String allRequests= C206_CaseStudy.retrieveAllRequest(requesttList,"John");
+		   String testOutput = "";
+		   assertEquals("Check that ViewAllrequesttlist", testOutput, allRequests);
+		  
+		   //Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+		   C206_CaseStudy.addRequest(requesttList, r1);
+		   C206_CaseStudy.addRequest(requesttList, r2);
+		   assertEquals("Test that requesttList arraylist size is 2", 2, requesttList.size());
+		   
+		   //test if the expected output string same as the list of request retrieved from the source
+		   allRequests = C206_CaseStudy.retrieveAllRequest(requesttList,"John");
+		     testOutput = String.format("%-20s %-20s %-20s %-20s\n","John","Painting Service", "Paint living room", "Pending");
+		     
+		     
+		     
+		     assertEquals("Test that Viewallrequest", testOutput, allRequests);
+		  }
 	  
 	    @Test
 	     public void testDeleteRequest() {
-	         Request r1 = new Request("Plumbing Service", "Fix leaking faucet", "Pending");
-	         Request r2 = new Request("Electrical Service", "Install ceiling fan", "Completed");
-	         requesttList.add(r1);
-	         requesttList.add(r2);
+	         Request rq1 = r1;
+	         Request rq2 = r2;
+	         requesttList.add(rq1);
+	         requesttList.add(rq2);
 
-	         C206_CaseStudy.deleteRequest(requesttList, r1);
+	         C206_CaseStudy.deleteRequest(requesttList, r1,"John");
 	         assertEquals(1, requesttList.size());
 
-	         C206_CaseStudy.deleteRequest(requesttList, r2);
+	         C206_CaseStudy.deleteRequest(requesttList, r2,"Cena");
 	         assertEquals(0, requesttList.size());
 
 	         // Attempt to delete a request that doesn't exist
-	         Request nonExistentRequest = new Request("Painting Service", "Paint living room", "Pending");
-	         C206_CaseStudy.deleteRequest(requesttList, nonExistentRequest);
+	         Request nonExistentRequest = new Request("nonExist","Painting Service", "Paint living room", "Pending");
+	         C206_CaseStudy.deleteRequest(requesttList, nonExistentRequest,"nonexist");
 	         assertEquals(0, requesttList.size());
 	     }
 

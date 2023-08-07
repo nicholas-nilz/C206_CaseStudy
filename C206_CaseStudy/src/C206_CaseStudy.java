@@ -43,7 +43,11 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     Request r = inputRequest();
+			    	String username=Helper.readString("Please enter your username");
+			     Request r = inputRequest(username);
+			     
+			
+
 			     C206_CaseStudy.addRequest(requesttList, r);
 				 System.out.println("Request added");
 			    }else if (which==4) {
@@ -67,7 +71,8 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //C206_CaseStudy.viewAppointment(appointmentList);
 			    }else if(which==3) {
-			     C206_CaseStudy.viewAllRequest(requesttList);
+			    	String username=Helper.readString("Please enter the username's request you wan tot display:");
+			     C206_CaseStudy.viewAllRequest(requesttList,username);
 			    }else if (which==4) {
 			     //C206_CaseStudy.viewServiceProvider(quoteList);
 			    }else if(which==5) {
@@ -95,8 +100,10 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     Request r = inputRequest();
-			     C206_CaseStudy.deleteRequest(requesttList, r);
+			    	String username=Helper.readString("Please enter your username");
+
+			     Request r = inputRequest(username);
+			     C206_CaseStudy.deleteRequest(requesttList, r,username);
 				 System.out.println("Request deleted");
 			    }else if (which==4) {
 			     //
@@ -128,8 +135,7 @@ public class C206_CaseStudy {
 					    }else if(which==2) {
 					     //
 					    }else if(which==3) {
-					     Request r = inputRequest();
-					     C206_CaseStudy.deleteRequest(requesttList, r);
+					    
 						 System.out.println("Request deleted");
 					    }else if (which==4) {
 					     
@@ -192,8 +198,9 @@ public class C206_CaseStudy {
 				    }else if(which==2) {
 				     //
 				    }else if(which==3) {
-				     Request r = inputRequest();
-				     C206_CaseStudy.deleteRequest(requesttList, r);
+				    	String username=Helper.readString("Please enter your username");
+				     Request r = inputRequest(username);
+				     C206_CaseStudy.deleteRequest(requesttList, r,username);
 					 System.out.println("Request deleted");
 				    }else if (which==4) {
 				     
@@ -246,7 +253,7 @@ public class C206_CaseStudy {
 								System.out.println("!"+loginUSER.getname());
 								
 								System.out.println("1. Deactivate account");
-								int navigate=Helper.readInt("Please enter a numbe to nevigate:");
+								int navigate=Helper.readInt("Please enter a number to navigate:");
 								if(navigate==1) {
 									System.out.println("Are you sure you want delete account?(yes/no)"); 
 									String delete=Helper.readString("Please enter yes or no:");
@@ -494,119 +501,124 @@ public static void updateUser(ArrayList<User> userList,int updateID,User userinp
 		
 	}
 
-	 public static String retrieveAllQuotes(ArrayList<quote> quoteList) {
-	  // TODO Auto-generated method stub
-	  String output = "";
-	  // write your code here
-	  for (int i = 0; i < quoteList.size(); i++) {
-
-	   output += String.format("%-20s %-20s\n", quoteList.get(i).getQ_details(),quoteList.get(i).getQ_description());
-	  }
-	  return output;
-	 }
-	 
-	 public static void viewALLquotes(ArrayList<quote> quoteList) {
-	  // TODO Auto-generated method stub
-	  C206_CaseStudy.setHeader("Quote LIST");
-	  String output = String.format("%-20s %-20s\n","Details","Description");
-	   output += retrieveAllQuotes(quoteList);
-	  System.out.println(output);
-	 }
-	 
-	 public static quote inputQuote() {
-	  String details = Helper.readString("Enter details > ");
-	  String description = Helper.readString("Enter description > ");
-
-	  quote quoteinsert= new quote(details,description);
-	  return quoteinsert;
-	  
-	 }
-	 
-	 public static void deleteQuote(ArrayList<quote> quoteList, quote quoteToDelete) {
-		    Iterator<quote> iterator = quoteList.iterator();
-		    while (iterator.hasNext()) {
-		        quote item = iterator.next();
-		        if (item.getQ_details().equalsIgnoreCase(quoteToDelete.getQ_details())) {
-		            iterator.remove();
-		            System.out.println("Quote deleted.");
-		            return; // Exit the loop after deleting one quote
-		        }
-		    }
-		    System.out.println("Quote not found.");
-		}
-	 
-	 public static void addQuote(ArrayList<quote> quoteList, quote quoteinsert) {
-	  quote item;
-	  for(int i = 0; i < quoteList.size(); i++) {
-	   item = quoteList.get(i);
-	   if (item.getQ_details().equalsIgnoreCase(quoteinsert.getQ_details()) )
-	    return;
-	  }
-	  if ((quoteinsert.getQ_details().isEmpty()) || (quoteinsert.getQ_description().isEmpty()) ) {
-	   return;
-	  }
-	  quoteList.add(quoteinsert);
-	  
-	 }
-	 
-	 public static Request inputRequest() {
-		   String service = Helper.readString("Enter service > ");
-		   String description = Helper.readString("Enter description > ");
-		   String status = Helper.readString("Enter status > ");
-
-		   Request r = new Request(service, description, status);
-		   return r;
-
-		  }
-
-		  public static void addRequest(ArrayList<Request> requesttList, Request r) {
-		   Request service;
-		   for (int i = 0; i < requesttList.size(); i++) {
-		    service = requesttList.get(i);
-		    if (service.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()))
-		     return;
-		   }
-		   if ((r.getRequestDescription().isEmpty()) || (r.getRequestService().isEmpty())) {
-		    return;
-		   }
-		   requesttList.add(r);
-
-		  }
-
-		  public static String retrieveAllRequest(ArrayList<Request> requesttList) {
+	public static String retrieveAllQuotes(ArrayList<quote> quoteList) {
 		   // TODO Auto-generated method stub
 		   String output = "";
 		   // write your code here
-		   for (int i = 0; i < requesttList.size(); i++) {
+		   for (int i = 0; i < quoteList.size(); i++) {
 
-		    output += String.format("%-20s %-20s %-20s\n", requesttList.get(i).getRequestService(),
-		      requesttList.get(i).getRequestDescription(), requesttList.get(i).getRequestStatus());
+		    output += String.format("%-20s %-20s\n", quoteList.get(i).getQ_details(),quoteList.get(i).getQ_description());
 		   }
 		   return output;
 		  }
-
-		  public static void viewAllRequest(ArrayList<Request> requesttList) {
+		  
+		  public static void viewALLquotes(ArrayList<quote> quoteList) {
 		   // TODO Auto-generated method stub
-		   C206_CaseStudy.setHeader("Request List");
-		   String output = String.format("%-20s %-20s %-20s\n", "Service", "Description", "Status");
-		   output += retrieveAllRequest(requesttList);
+		   C206_CaseStudy.setHeader("Quote LIST");
+		   String output = String.format("%-20s %-20s\n","Details","Description");
+		    output += retrieveAllQuotes(quoteList);
 		   System.out.println(output);
 		  }
+		  
+		  public static quote inputQuote() {
+		   String price = Helper.readString("Enter price > ");
+		   String additional = Helper.readString("Enter additional > ");
 
-		  public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete) {
-		   Iterator<Request> iterator = requesttList.iterator();
-		   while (iterator.hasNext()) {
-		    Request r = iterator.next();
-		    if (r.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
-		     iterator.remove();
-		     System.out.println("Request deleted.");
-		     return;
-		    }
-		   }
-		   System.out.println("Request not found.");
+		   quote quoteinsert= new quote(price,additional);
+		   return quoteinsert;
+		   
 		  }
+		  
+		  public static void deleteQuote(ArrayList<quote> quoteList, quote quoteToDelete) {
+		      Iterator<quote> iterator = quoteList.iterator();
+		      while (iterator.hasNext()) {
+		          quote item = iterator.next();
+		          if (item.getQ_price()==quoteToDelete.getQ_price()) {
+		              iterator.remove();
+		              System.out.println("Quote deleted.");
+		              return; // Exit the loop after deleting one quote
+		          }
+		      }
+		      System.out.println("Quote not found.");
+		  }
+		  
+		  public static void addQuote(ArrayList<quote> quoteList, quote quoteinsert) {
+		   quote item;
+		   for(int i = 0; i < quoteList.size(); i++) {
+		    item = quoteList.get(i);
+		    if (item.getQ_price().equalsIgnoreCase(quoteinsert.getQ_price()) )
+		     return;
+		   }
+		   quoteList.add(quoteinsert);
+		   
+		  }
+	 
+	 public static Request inputRequest(String username) {
+		  String service = Helper.readString("Enter service > ");
+		  String description = Helper.readString("Enter description > ");
+		  String status = Helper.readString("Enter status > ");
+
+		  Request r = new Request(username, service, description, status);
+		  return r;
 
 		 }
+
+		 public static void addRequest(ArrayList<Request> requesttList, Request r) {
+		  
+			 
+			 Request request;
+			  for(int i = 0; i < requesttList.size(); i++) {
+				  request = requesttList.get(i);
+			   if (request.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()) )
+			    return;
+			  }
+			  if ((r.getname().isEmpty()) || (r.getRequestStatus().isEmpty()) ) {
+			   return;
+			  }
+		  requesttList.add(r);
+
+		 }
+
+		 public static String retrieveAllRequest(ArrayList<Request> requesttList, String username) {
+		  // TODO Auto-generated method stub
+		  String output = "";
+		  // write your code here
+		  for (int i = 0; i < requesttList.size(); i++) {
+		   Request request = requesttList.get(i);
+		   if (request.getname().equalsIgnoreCase(username)) {
+		    output += String.format("%-20s %-20s %-20s %-20s\n", request.getname(),
+		      requesttList.get(i).getRequestService(), requesttList.get(i).getRequestDescription(),
+		      requesttList.get(i).getRequestStatus());
+		   }
+		  }
+		  return output;
+		 }
+
+		 public static void viewAllRequest(ArrayList<Request> requesttList, String username) {
+		  // TODO Auto-generated method stub
+		  C206_CaseStudy.setHeader("Request List");
+		  String output = String.format("%-20s %-20s %-20s %-20s\n", "Username", "Service", "Description", "Status");
+		  output += retrieveAllRequest(requesttList, username);
+		  System.out.println(output);
+		 }
+
+		 public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete, String username) {
+		  Iterator<Request> iterator = requesttList.iterator();
+		  while (iterator.hasNext()) {
+		   Request request = iterator.next();
+		   if (request.getname().equalsIgnoreCase(username)
+		     && request.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
+		    iterator.remove();
+		    System.out.println("Request deleted.");
+		    return;
+		   }
+		  }
+		  System.out.println("Request not found.");
+		 }
+
+		}
+
+		 
 
 
 
