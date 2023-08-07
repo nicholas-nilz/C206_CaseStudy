@@ -18,11 +18,11 @@ public class C206_CaseStudy {
 	    registeredUsers.add(new User("WeiSiang","ws@gmail.com",12345,"jalan123","lol123"));
 		 String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote",
 				"Service" };
-		 int Sprint =Helper.readInt("1.sprint 1\n2.sprint 2\nPlease enter which sprint:");
-		 if(Sprint==1) {
+		
+		 
 
 			  int option = 0;
-			  while (option != 6) {
+			  while (option != 8) {
 			   Menu();
 			   option = Helper.readInt("Please enter the number: ");
 
@@ -75,6 +75,7 @@ public class C206_CaseStudy {
 			    }else if(which==6) {
 			     //C206_CaseStudy.viewService(serviceList);
 			    }
+			    //Delete 
 			   } else if (option == 3) { 
 			    System.out.println("\n");
 			    for (int i = 0; i < list.length; i++) {
@@ -204,40 +205,90 @@ public class C206_CaseStudy {
 				     //
 				    }
 			  }
+			   
+			   //Login
+			  if(option ==6) {
+				  String loginNAME="";
+					 String loginAs="";
+					
+								boolean loginSuccess=false;
+								while (!loginSuccess) {
+								    int category = Helper.readInt("Please enter your category:\n1.User\n2.Service Provider");
+
+								    if (category == 1) {
+								        String loginName = userLogin(registeredUsers);
+								        if (!loginName.isEmpty()) {
+								        	loginNAME = loginName;
+								            System.out.println("Welcome " + loginName + ", login successful.");
+								            loginAs = "user";
+								            loginSuccess=true;
+								        } else {
+								            System.out.println("Login failed, please try again.");
+								        }
+								    } else if (category == 2) {
+								        String loginName = SPLogin(SP_List);
+								        if (!loginName.isEmpty()) {
+								        	loginNAME = loginName;
+								            System.out.println("Welcome " + loginName + ", login successful.");
+								            loginAs = "sp";
+								            break; 
+								        } else {
+								            System.out.println("Login failed, please try again.");
+								        }}}
+								
+								
+								User loginUSER = null;
+								for (int x=0;x<registeredUsers.size();x++) {
+									if(loginNAME.equals(registeredUsers.get(x).getname())) {
+										loginUSER=registeredUsers.get(x); 
+									}
+								}
+								System.out.println("!"+loginUSER.getname());
+								
+								System.out.println("1. Deactivate account");
+								int navigate=Helper.readInt("Please enter a numbe to nevigate:");
+								if(navigate==1) {
+									System.out.println("Are you sure you want delete account?(yes/no)"); 
+									String delete=Helper.readString("Please enter yes or no:");
+									if(delete.equalsIgnoreCase("yes")) {
+										int removeID=0;
+										for (int x=0;x<registeredUsers.size();x++) {
+											if(loginUSER.getname().equals(registeredUsers.get(x).getname())) {
+												removeID=x;
+											}
+										}
+										deleteUser(registeredUsers,removeID+1);  
+
+									}
+							    	
+								}
+								
+								}
+			  
+			  if(option ==7) {
+				  setHeader("Register User");
+				  System.out.println("Alert! email must end with @gmail.com");
+				  String username=Helper.readString("\nPlease enter username: ");
+					String email=Helper.readString("Please enter email: ");
+					int contact=Helper.readInt("Please enter contact number: ");
+					String address=Helper.readString("Please enter address: ");
+					String password=Helper.readString("Please enter password: ");
+					User userADD= new User(username,email,contact,address,password);
+			     addUser(registeredUsers,userADD); 
+				  
+			  }
+						   }
+			  }
+			  
+	
 			 
 		 
 		 		 
 		 
 		 
-		 else if(Sprint==2) {
-		 String loginSuccess="";
-		 String loginAs="";
-		 int Sprint2 = 0;
-			while (Sprint2 != 3) {
-					int category =0;
-					while (category != 3) {
-					    category = Helper.readInt("Please enter your category:\n1.User\n2.Service Provider");
-
-					    if (category == 1) {
-					        String loginName = userLogin(registeredUsers);
-					        if (!loginName.isEmpty()) {
-					            loginSuccess = loginName;
-					            System.out.println("Welcome " + loginName + ", login successful.");
-					            loginAs = "user";
-					            break;
-					        } else {
-					            System.out.println("Login failed, please try again.");
-					        }
-					    } else if (category == 2) {
-					        String loginName = SPLogin(SP_List);
-					        if (!loginName.isEmpty()) {
-					            loginSuccess = loginName;
-					            System.out.println("Welcome " + loginName + ", login successful.");
-					            loginAs = "sp";
-					            break; 
-					        } else {
-					            System.out.println("Login failed, please try again.");
-					        }}}}}}}}
+		
+		 
+		 
 					    
 					
 					// Code here for the sprint two feature and rmb retrieve the variable loginSuccess as the username and loginAs as the role.
@@ -264,7 +315,10 @@ public class C206_CaseStudy {
 		System.out.println("Enter 3 to Delete");
 		System.out.println("Enter 4 to Update");
 		System.out.println("Enter 5 to Search");
-		System.out.println("Enter 6 to Exit");
+		System.out.println("Enter 6 to Log in");
+		System.out.println("Enter 7 to Register");
+		System.out.println("Enter 8 to Exit");
+
 
 	}
 	 public static void setHeader(String header) {
@@ -277,7 +331,29 @@ public class C206_CaseStudy {
 		
 		
 			int before =userList.size();
-			userList.add(userAdd);
+			User user=userAdd;
+			if(user.getEmail().endsWith("@gmail.com")) {
+				boolean duplicate=false;
+				for (int x=0;x<userList.size();x++) {
+					if(userList.get(x).getname().equals(user.getname())) {
+						duplicate=true;
+						System.out.println("Username existed please try with a another username");
+						break;
+					}}
+				if(duplicate==false) {
+					userList.add(userAdd);
+				}
+				
+				
+			}
+			else {
+				System.out.println("Invalid email format(@gmail.com).");
+			}
+			
+			
+			
+			
+			
 			int after  =userList.size();
 			if(after>before) {
 				System.out.println("\nUser added successfully");
