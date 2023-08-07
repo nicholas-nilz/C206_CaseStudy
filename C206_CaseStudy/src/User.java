@@ -24,7 +24,8 @@ public class User {
 	private String preference;
 	private ArrayList<User> Userlist = new ArrayList<User>();
 
-
+	
+	
 public User(String username,String email,int contact_Number,String address,String password) {
 	this.username=username;
 	this.email=email;
@@ -34,6 +35,14 @@ public User(String username,String email,int contact_Number,String address,Strin
 	
 }
 
+
+
+/**
+ * @param username2
+ */
+public User(String username2) {
+	this.username=username2;
+}
 
 public  String getname() {
   return username;
