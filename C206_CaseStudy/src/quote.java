@@ -16,7 +16,7 @@ public class quote {
   this.additional_information=additional_information;
   
  }
- 
+ //asdadsasd
  public String getQ_details() {
   return Q_details;
  }
