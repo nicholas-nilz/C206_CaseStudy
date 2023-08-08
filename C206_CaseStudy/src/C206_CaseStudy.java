@@ -18,7 +18,7 @@ public class C206_CaseStudy {
 		String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote", "Service" };
 
 		int option = 0;
-		while (option != 8) {
+		while (option != 6) {
 			Menu();
 			option = Helper.readInt("Please enter the number: ");
 
@@ -116,7 +116,6 @@ public class C206_CaseStudy {
 					String CompanyName=Helper.readString("Enter your company's name: ");
 			    	Service_Provider sp=inputServiceProvider(CompanyName);
 			     C206_CaseStudy.deleteServiceProvider(SP_List, sp, CompanyName);
-			     System.out.println("Service Provider Deleted");
 				} else if (which == 5) {
 					quote quoteinsert = inputQuote();
 					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
@@ -126,110 +125,10 @@ public class C206_CaseStudy {
 				}
 
 				// Update
-			} else if (option == 4) {
-				// Update
-				System.out.println("\n");
-				for (int i = 0; i < list.length; i++) {
-					System.out.println(i + 1 + ":Update " + list[i]);
-				}
-				int which = Helper.readInt("Please Enter a number to Update:");
-
-				if (which == 1) {
-					C206_CaseStudy.setHeader("View all user");
-					viewAllUser(registeredUsers);
-					System.out.println("");
-					int updateID = Helper.readInt("Please enter the ID to update:");
-					User userUpdate = inputupdateUser(registeredUsers, updateID);
-					updateUser(registeredUsers, updateID, userUpdate);
-
-				} else if (which == 2) {
-					//
-				} else if (which == 3) {
-
-					System.out.println("Request deleted");
-				} else if (which == 4) {
-
-				} else if (which == 5) {
-					quote quoteinsert = inputQuote();
-					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
-					System.out.println("Quote deleted");
-				} else if (which == 6) {
-					//
-				}
-			}
-
-			// Search
-
-			else if (option == 5) {
-				// Search
-				System.out.println("\n");
-				for (int i = 0; i < list.length; i++) {
-					System.out.println(i + 1 + ":Search " + list[i]);
-				}
-				int which = Helper.readInt("Please Enter a number to Search:");
-				if (which == 1) {
-					setHeader("Search user");
-					System.out.println("Search by\n1.Username\n2.Contact number");
-					int searchby = Helper.readInt("Enter an number to search:");
-					if (searchby == 1) {
-						String searchUsername = Helper.readString("Enter the user name you want to search:");
-						String search = searchUserName(registeredUsers, searchUsername);
-						if (search != "") {
-							for (int x = 0; x < registeredUsers.size(); x++) {
-								if (registeredUsers.get(x).getname().equalsIgnoreCase(search)) {
-									// display search result
-									System.out.println("1 result founded");
-									System.out.println(String.format("%-20s %-25s %-15s %-25s\n", "Username", "Email",
-											"Contact Number", "Address"));
-									System.out.println(String.format("%-20s %-25s %-15s %-25s\n",
-											registeredUsers.get(x).getname(), registeredUsers.get(x).getEmail(),
-											registeredUsers.get(x).getContact(), registeredUsers.get(x).getAddress()));
-								}
-							}
-						} else {
-							System.out.println("There is no such username.\n");
-						}
-					}
-					if (searchby == 2) {
-						int searchUsercontact = Helper.readInt("Enter the user contact number you want to search:");
-						int search = searchUserContact(registeredUsers, searchUsercontact);
-						if (search != 0) {
-							for (int x = 0; x < registeredUsers.size(); x++) {
-								if (registeredUsers.get(x).getContact() == search) {
-									// display search result
-									System.out.println("1 result founded");
-									System.out.println(String.format("%-20s %-25s %-15s %-25s\n", "Username", "Email",
-											"Contact Number", "Address"));
-									System.out.println(String.format("%-20s %-25s %-15s %-25s\n",
-											registeredUsers.get(x).getname(), registeredUsers.get(x).getEmail(),
-											registeredUsers.get(x).getContact(), registeredUsers.get(x).getAddress()));
-								}
-							}
-						} else {
-							System.out.println("There is no such conatct number.\n");
-						}
-					}
-
-				} else if (which == 2) {
-					//
-				} else if (which == 3) {
-					String username = Helper.readString("Please enter your username");
-					Request r = inputRequest(username);
-					C206_CaseStudy.deleteRequest(requesttList, r, username);
-					System.out.println("Request deleted");
-				} else if (which == 4) {
-
-				} else if (which == 5) {
-					quote quoteinsert = inputQuote();
-					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
-					System.out.println("Quote deleted");
-				} else if (which == 6) {
-					//
-				}
-			}
+			} 
 
 			// Login
-			if (option == 6) {
+			if (option == 4) {
 				String loginNAME = "";
 				String loginAs = "";
 
@@ -288,7 +187,7 @@ public class C206_CaseStudy {
 
 			}
 
-			if (option == 7) {
+			if (option == 5) {
 				setHeader("Register User");
 				System.out.println("Alert! email must end with @gmail.com");
 				String username = Helper.readString("\nPlease enter username: ");
@@ -311,11 +210,9 @@ public class C206_CaseStudy {
 		System.out.println("Enter 1 for Add");
 		System.out.println("Enter 2 View All");
 		System.out.println("Enter 3 to Delete");
-		System.out.println("Enter 4 to Update");
-		System.out.println("Enter 5 to Search");
-		System.out.println("Enter 6 to Log in");
-		System.out.println("Enter 7 to Register");
-		System.out.println("Enter 8 to Exit");
+		System.out.println("Enter 4 to Log in");
+		System.out.println("Enter 5 to Register");
+		System.out.println("Enter 6 to Exit");
 
 	}
 

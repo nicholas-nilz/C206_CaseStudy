@@ -2,6 +2,8 @@ public class quote {
  String Q_details;
  String Q_description;
  
+ 
+ 
  //user register quote
  public quote(String Q_details,String Q_description) {
   this.Q_details=Q_details;
