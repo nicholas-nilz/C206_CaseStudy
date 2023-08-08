@@ -48,6 +48,9 @@ public class C206_CaseStudy {
 					System.out.println("Request added");
 				} else if (which == 4) {
 					//
+					String CompanyName=Helper.readString("Enter your company name: ");
+			    	Service_Provider sp= inputServiceProvider(CompanyName);
+			    	addServiceProvider(SP_List,sp);
 				} else if (which == 5) {
 					quote quoteinsert = inputQuote();
 					C206_CaseStudy.addQuote(quoteList, quoteinsert);
@@ -71,8 +74,8 @@ public class C206_CaseStudy {
 					String username = Helper.readString("Please enter the username's request you wan tot display:");
 					C206_CaseStudy.viewAllRequest(requesttList, username);
 				} else if (which == 4) {
-					// C206_CaseStudy.viewServiceProvider(quoteList);
-				} else if (which == 5) {
+					C206_CaseStudy.viewServiceProvider(SP_List);				
+					} else if (which == 5) {
 					C206_CaseStudy.viewALLquotes(quoteList);
 				} else if (which == 6) {
 					// C206_CaseStudy.viewService(serviceList);
@@ -98,7 +101,9 @@ public class C206_CaseStudy {
 					int removeID = Helper.readInt("Please enter the ID to remove:");
 					deleteUser(registeredUsers, removeID);
 				} else if (which == 2) {
-			
+					Appointment addApointment1 =inputAppointment();
+					
+					deleteAppointment(appointmentList,addApointment1);
 					
 					
 				} else if (which == 3) {
@@ -108,7 +113,10 @@ public class C206_CaseStudy {
 					C206_CaseStudy.deleteRequest(requesttList, r, username);
 					System.out.println("Request deleted");
 				} else if (which == 4) {
-					//
+					String CompanyName=Helper.readString("Enter your company's name: ");
+			    	Service_Provider sp=inputServiceProvider(CompanyName);
+			     C206_CaseStudy.deleteServiceProvider(SP_List, sp, CompanyName);
+			     System.out.println("Service Provider Deleted");
 				} else if (which == 5) {
 					quote quoteinsert = inputQuote();
 					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
@@ -345,10 +353,17 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void deleteUser(ArrayList<User> userList, int removeID) {
-
-		userList.remove(removeID - 1);
-		System.out.println("User remove successfully.");
+	public static boolean deleteUser(ArrayList<User> userList, int removeID) {
+		boolean output =false;
+		if(userList.size()>0) {
+			userList.remove(removeID - 1);
+			System.out.println("User remove successfully.");
+			output=true;
+		}
+		else {
+			System.out.println("there is no user to remove.");
+		}
+		return output;
 	}
 
 	public static void viewAllUser(ArrayList<User> userList) {
@@ -646,6 +661,69 @@ public class C206_CaseStudy {
 		Appointment A = new Appointment(date, time, additional_details);
 		return A;
 
+	}
+	
+	//Service Provider
+	public static Service_Provider inputServiceProvider(String CompanyName) {
+		  String password = Helper.readString("Enter password: ");
+		  String category  = Helper.readString("Enter a category: ");
+		  String location = Helper.readString("Enter your address: ");
+
+		  Service_Provider sp = new Service_Provider(CompanyName, password, category, location);
+		  return sp;
+
+		 }
+	public static void addServiceProvider(ArrayList<Service_Provider> SP_List, Service_Provider sp) {
+	    for (Service_Provider provider : SP_List) {
+	        if (provider.getcompanyName().equalsIgnoreCase(sp.getcompanyName())) {
+	            System.out.println("Service Provider already exists.");
+	            return;
+	        }
+	    }
+
+	    if (sp.getcompanyName().isEmpty() || sp.getpassword().isEmpty()) {
+	        System.out.println("Company Name and Password cannot be empty.");
+	        return;
+	    }
+
+	    SP_List.add(sp);
+	    System.out.println("Service Provider added successfully.");
+	}
+
+	public static String retrieveServiceProvider(ArrayList<Service_Provider> SP_List) {
+	    String output = "";
+
+	    for (Service_Provider sp : SP_List) {
+	        output += String.format("%-20s %-20s %-20s %-20s\n", sp.getcompanyName(), sp.getpassword(), sp.getservice_category(), sp.getLocation());
+	    }
+
+	    return output;
+	}
+
+	public static void viewServiceProvider(ArrayList<Service_Provider> SP_List) {
+		C206_CaseStudy.setHeader("SERVICE PROVIDERS");
+		String output = String.format("%-20s %-20s %-20s %-20s\n", "COMPANY NAME","PASSWORD","CATEGORY", "LOCATION");
+		output += retrieveServiceProvider(SP_List);	
+
+		System.out.println(output);
+	}
+
+	public static void deleteServiceProvider(ArrayList<Service_Provider> SP_List, Service_Provider SPdelete, String CompanyName) {
+	    Iterator<Service_Provider> iterator = SP_List.iterator();
+	    boolean found = false; // Variable to track if the Service_Provider has been found and deleted
+	    while (iterator.hasNext()) {
+	        Service_Provider delete = iterator.next();
+	        if (delete.getcompanyName().equals(CompanyName) && delete.service_category.equalsIgnoreCase(SPdelete.getservice_category())) {
+	            iterator.remove();
+	            found = true; // Mark the Service_Provider as found and deleted
+	            break; // Exit the loop after deleting one Service_Provider
+	        }
+	    }
+	    if (found) {
+	        System.out.println("Service Provider has been deleted.");
+	    } else {
+	        System.out.println("Service Provider not found.");
+	    }
 	}
 
 }

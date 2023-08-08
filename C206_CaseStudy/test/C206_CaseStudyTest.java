@@ -45,9 +45,23 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addUser(userList,user2);
 		assertEquals("Check that userList arraylist size is 2", 2, userList.size());
 		assertSame("Check that user2 is added", user2, userList.get(1));
+
+		userList.remove(1);
+		// test add a duplicate username -error
+		User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
+		C206_CaseStudy.addUser(userList,userduplicate);
+		assertEquals("Check that userList arraylist size did not increase", 1, userList.size());
+		
+		//test add a wrong email format object 
+		User useremail =new User("hahan","errortest",90803674,"jalan123","lol123");
+		C206_CaseStudy.addUser(userList,userduplicate);
+		assertNotEquals("Check that userList arraylist size did not increase", 2, userList.size());
 	}
+		
+		
+	    
 	
-	String output = String.format("%-20s %-25s %-15s %-25s\n","Username","Email","Contact Number","Address");
+	
 	@Test 
 	public void testRetrieveUser() {
 		// Test if userlist is not null but empty -boundary
@@ -71,6 +85,12 @@ public class C206_CaseStudyTest {
 				 user2=new User("jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 				
 				assertEquals("Test that Viewalluser", testOutput, allUsers);
+				
+				userList.remove(1);
+				User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
+				C206_CaseStudy.addUser(userList,userduplicate);
+				//
+		
 	}
 	@Test 
 	public void testDeleteUser() {
@@ -80,7 +100,9 @@ public class C206_CaseStudyTest {
 				//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
 				assertEquals("Test that userList arraylist size is 2", 2, userList.size());
 			   
-				C206_CaseStudy.deleteUser(userList, 1);
+				boolean deleteuser2= C206_CaseStudy.deleteUser(userList, 1);
+				//test the boolean returned is true(success);
+				assertTrue(deleteuser2);
 				//test that the size of userList is reduced.
 				assertEquals("Test that userList arraylist size is reduce 1", 1, userList.size());
 				
@@ -88,8 +110,18 @@ public class C206_CaseStudyTest {
 
 				String testOutput = String.format("%-5d%-20s %-25s %-15s %-25s\n",1,"jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 				
+				//test only the second user is remove - normal
 				assertEquals("Test that second user is delete ", testOutput, allUsers);
-
+				
+				//test delete an object in empty arraylist- error
+				userList.clear();
+				boolean removeEmptyList =C206_CaseStudy.deleteUser(userList, 0);
+				assertFalse(removeEmptyList);
+				
+				
+				
+				
+				
 	}
 	@Test
 	 public void c206_test() {
