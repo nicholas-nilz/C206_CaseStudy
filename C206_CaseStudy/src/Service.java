@@ -14,11 +14,38 @@
  *
  */
 public class Service {
-	String S_description;
-	float S_price;
+ String S_type;
+ String S_description;
+ String S_location;
+ float S_budget;
 
-public Service(String description, 	float price) {
-	this.S_description=description;
-	this.S_price=price;
+public Service(String type, String description, String location, float budget) {
+ this.S_type=type;
+ this.S_description=description;
+ this.S_location=location;
+ this.S_budget=budget;
+}
+
+public String getType() {
+ return S_type;
+}
+public String getDescription () {
+ return S_description;
+}
+
+public String getLocation() {
+ return S_location;
+}
+
+public float getBudget() {
+ return S_budget;
+}
+
+public String toString() {
+ String output=super.toString();
+ output=String.format("%-63s %-20s", output,S_type, S_description,S_location,S_budget);
+ 
+ return output;
 }
 }
+
