@@ -16,7 +16,7 @@ public class C206_CaseStudy {
 		SP_List.add(new Service_Provider("Nippon", "qwerty", "Cleaning", "Jurong East"));
 		registeredUsers.add(new User("WeiSiang", "ws@gmail.com", 12345, "jalan123", "lol123"));
 		String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote", "Service" };
-
+		serviceList.add(new Service("Cleaning house","clean backyard","jurong east",100.00));
 		int option = 0;
 		while (option != 6) {
 			Menu();
@@ -172,9 +172,9 @@ public class C206_CaseStudy {
 						loginUSER = registeredUsers.get(x);
 					}
 				}
-				System.out.println("!" + loginUSER.getname());
 
 				System.out.println("1. Deactivate account");
+				System.out.println("2. View all service");
 				int navigate = Helper.readInt("Please enter a number to navigate:");
 				if (navigate == 1) {
 					System.out.println("Are you sure you want delete account?(yes/no)");
@@ -187,9 +187,10 @@ public class C206_CaseStudy {
 							}
 						}
 						deleteUser(registeredUsers, removeID + 1);
-
 					}
-
+				}
+				if(navigate==2) {
+					C206_CaseStudy.viewAllService(serviceList);
 				}
 
 			}
@@ -358,10 +359,7 @@ public class C206_CaseStudy {
 		String LoginUsername = "";
 
 		for (int x = 0; x < registeredUsers.size(); x++) {
-			System.out.println(username.equals(registeredUsers.get(x).getname()));
-			System.out.println(password.equals(registeredUsers.get(x).getPassword()));
-
-			if (username.equals(registeredUsers.get(x).getname())
+						if (username.equals(registeredUsers.get(x).getname())
 					&& password.equals(registeredUsers.get(x).getPassword())) {
 				LoginUsername = registeredUsers.get(x).getname();
 				break;
