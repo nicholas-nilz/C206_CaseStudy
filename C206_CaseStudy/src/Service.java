@@ -17,9 +17,9 @@ public class Service {
  String S_type;
  String S_description;
  String S_location;
- float S_budget;
+ double S_budget;
 
-public Service(String type, String description, String location, float budget) {
+public Service(String type, String description, String location, double budget) {
  this.S_type=type;
  this.S_description=description;
  this.S_location=location;
@@ -37,7 +37,7 @@ public String getLocation() {
  return S_location;
 }
 
-public float getBudget() {
+public double getBudget() {
  return S_budget;
 }
 

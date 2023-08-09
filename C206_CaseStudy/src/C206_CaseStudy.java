@@ -56,8 +56,13 @@ public class C206_CaseStudy {
 					C206_CaseStudy.addQuote(quoteList, quoteinsert);
 					System.out.println("Quote added");
 				} else if (which == 6) {
-					//
+					setHeader("Add Service");
+			        String type=Helper.readString("Please enter type: ");
+			           Service s = inputService(type);
+			           addService(serviceList, s);
+			           System.out.println("Service added.");
 				}
+				//View
 			} else if (option == 2) {
 				System.out.println("\n");
 				for (int i = 0; i < list.length; i++) {
@@ -78,8 +83,7 @@ public class C206_CaseStudy {
 					} else if (which == 5) {
 					C206_CaseStudy.viewALLquotes(quoteList);
 				} else if (which == 6) {
-					// C206_CaseStudy.viewService(serviceList);
-				}
+					C206_CaseStudy.viewAllService(serviceList);				}
 				// Delete
 			} else if (option == 3) {
 				System.out.println("\n");
@@ -121,7 +125,10 @@ public class C206_CaseStudy {
 					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
 					System.out.println("Quote deleted");
 				} else if (which == 6) {
-					//
+					  String sd=Helper.readString("Enter service type:");
+				        Service serviceInsert = inputService(sd);
+				            C206_CaseStudy.deleteService(serviceList, serviceInsert, sd);
+				         System.out.println("Service deleted");
 				}
 
 				// Update
@@ -622,5 +629,68 @@ public class C206_CaseStudy {
 	        System.out.println("Service Provider not found.");
 	    }
 	}
+	
+	public static Service inputService(String type) {
+	      String description = Helper.readString("Enter description: ");
+	      String location = Helper.readString("Enter location: ");
+	      float budget = Helper.readFloat("Enter budget: ");
 
-}
+	      Service s = new Service(type, description, location, budget);
+	      return s;
+	  }
+
+
+	  public static void addService(ArrayList<Service> serviceList, Service s) {
+	      for (Service service : serviceList) {
+	          if (service.getType().equalsIgnoreCase(s.getType())) {
+	              System.out.println("Service with the same type already exists. Cannot add duplicate.");
+	              return;
+	          }
+	      }
+	      
+	      if (s.getType().isEmpty() || s.getDescription().isEmpty()) {
+	          System.out.println("Service type cannot be empty. Service not added.");
+	          return;
+	      }
+	      serviceList.add(s);
+	      System.out.println("Service added.");
+	  }
+
+
+	   public static String retrieveAllService(ArrayList<Service> serviceList) {
+	    String output = "";
+	    for (Service s: serviceList) {
+	     output += String.format("%-20s %-20s %-20s %-20s\n", s.getType(), s.getDescription(), s.getLocation(), s.getBudget());
+	    }
+	    return output;
+	   }
+
+	  public static void viewAllService(ArrayList<Service> serviceList) {
+	    C206_CaseStudy.setHeader("Service List");
+	    String output = String.format("%-20s %-20s %-20s %-20s\n", "Type", "Description", "Location", "Budget");
+	    output += retrieveAllService(serviceList);
+	    System.out.println(output);
+	   }
+
+	   public static void deleteService(ArrayList<Service> serviceList, Service serviceDelete, String S_List) {
+	    Iterator<Service> iterator = serviceList.iterator();
+	    boolean found=false;
+	    while (iterator.hasNext()) {
+	     Service service = iterator.next();
+	     if (service.getType().equalsIgnoreCase(S_List)
+	       && service.getType().equalsIgnoreCase(serviceDelete.getType())) {
+	      iterator.remove();
+	      found = true;
+	      break;
+	     }
+	    }
+	    if (found) {
+	    System.out.println("Service deleted.");
+	   } else {
+	    System.out.println("Service not found.");
+	   }
+	   }
+	}
+	
+
+
