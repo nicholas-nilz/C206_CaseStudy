@@ -398,13 +398,76 @@ public class C206_CaseStudyTest {
           Service sv1 = s1;
           serviceList.add(s1);
 
-          C206_CaseStudy.deleteService(serviceList, s1.getType());
+          C206_CaseStudy.deleteService(serviceList, s1, "Plumbing");
           assertEquals("Check that serviceList arraylist size is reduced", 0, serviceList.size());
-
           Service nonExistentService = new Service("nonExist", "Plumbing service for kitchen", "Woodlands", 80.0);
-          C206_CaseStudy.deleteService(serviceList, nonExistentService.getType());
+          C206_CaseStudy.deleteService(serviceList, nonExistentService, "nonExist");
           assertEquals("Check that non-existent service cannot be deleted", 0, serviceList.size());
       }
+    //Test Service Provider
+      @Test
+    public void testCreateServiceProvider() {
+     Service_Provider sp = sp1;
+     assertNotNull(sp);
+     assertEquals("Nippon", sp.getcompanyName());
+           assertEquals("qwerty", sp.getpassword());
+           assertEquals("Cleaning", sp.getservice_category());
+           assertEquals("Jurong East",sp.getLocation());
+    }
+      
+      @Test
+       public void testAddServiceProvider() {
+     // Test if SP_List is not null but empty -boundary
+     assertNotNull("Check if there is valid userList arraylist to add to", SP_List);
+     
+     //Given an empty list, after adding 1 item, the size of the list is 1 - normal
+     //The item just added is as same as the first item of the list
+     C206_CaseStudy.addServiceProvider(SP_List, sp1);
+     assertEquals("Check that userList arraylist size is 1", 1, SP_List.size());
+     assertSame("Check that sp1 is added", sp1, SP_List.get(0));
+      
+     //Add another item. Test the size of the list is 2? - normal
+     //The item just added is as same as the second item of the list
+     C206_CaseStudy.addServiceProvider(SP_List, sp2);
+     assertEquals("Check that userList arraylist size is 2", 2, SP_List.size());
+     assertSame("Check that sp2 is added", sp2, SP_List.get(1));
+
+           Service_Provider duplicateSP = new Service_Provider("Nippon","qwerty","Cleaning","Jurong East");
+           C206_CaseStudy.addServiceProvider(SP_List, duplicateSP);
+
+           // Duplicate request should not be added
+           assertEquals(2, SP_List.size());
+       }
+      
+      @Test
+     public void testRetrieveServiceProvider() {
+       assertNotNull("Check if there is valid SP_List arraylist to add to",SP_List);
+       
+       C206_CaseStudy.addServiceProvider(SP_List, sp1);
+       assertEquals("Test that SP_List arraylist size is 1",1,SP_List.size());
+       
+       String allSP=C206_CaseStudy.retrieveServiceProvider(SP_List);
+       
+       String output=String.format("%-20s %-20s %-20s %-20s\n", sp1.getcompanyName(),sp1.getpassword(),sp1.getservice_category(),sp1.getLocation());
+       assertEquals("Test that ViewAllServiceProviders",output,allSP);
+      }
+      @Test
+       public void testDeleteServiceProvider() {
+           Service_Provider s1 = sp1;
+//           Service_Provider s2 = sp2;
+           SP_List.add(s1);
+//           SP_List.add(s2);
+
+           C206_CaseStudy.deleteServiceProvider(SP_List, s1,"Nippon");
+           assertEquals("Check that SP_List arraylist size is reduced",0, SP_List.size());
+
+           // Attempt to delete a request that doesn't exist
+           Service_Provider nonExistentSP = new Service_Provider("nonexist","qwerty","Cleaning","Jurong East");
+           C206_CaseStudy.deleteServiceProvider(SP_List, nonExistentSP,"nonexist");
+           assertEquals("Check that non-existent service cannot be deleted",0, SP_List.size());
+       }
+
+   }
  
 
 

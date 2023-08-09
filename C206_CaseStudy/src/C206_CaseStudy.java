@@ -173,24 +173,53 @@ public class C206_CaseStudy {
 					}
 				}
 
-				System.out.println("1. Deactivate account");
-				System.out.println("2. View all service");
-				int navigate = Helper.readInt("Please enter a number to navigate:");
-				if (navigate == 1) {
-					System.out.println("Are you sure you want delete account?(yes/no)");
-					String delete = Helper.readString("Please enter yes or no:");
-					if (delete.equalsIgnoreCase("yes")) {
-						int removeID = 0;
-						for (int x = 0; x < registeredUsers.size(); x++) {
-							if (loginUSER.getname().equals(registeredUsers.get(x).getname())) {
-								removeID = x;
-							}
-						}
-						deleteUser(registeredUsers, removeID + 1);
+				
+				int navigate=100;
+				while (navigate!=5) {
+					System.out.println("1. View all service");
+					System.out.println("2. Add request");
+					System.out.println("3. Deactivate account");
+					
+					if(requesttList.size()!=0) {
+						System.out.println("4. View Request");
+						System.out.println("5. Exit");						
 					}
-				}
-				if(navigate==2) {
-					C206_CaseStudy.viewAllService(serviceList);
+					else {
+						System.out.println("5.Exit");
+					}
+				
+					
+					
+				    navigate = Helper.readInt("Please enter a number to navigate:");
+					
+					 if(navigate==1) {
+						C206_CaseStudy.viewAllService(serviceList);
+
+						
+					}
+					else if(navigate==2) {
+						C206_CaseStudy.viewAllService(serviceList);
+						Request r = inputRequest(loginUSER.getname());
+						C206_CaseStudy.addRequest(requesttList, r);
+						System.out.println("Request added");
+					}
+					else if (navigate == 3) {
+						System.out.println("Are you sure you want delete account?(yes/no)");
+						String delete = Helper.readString("Please enter yes or no:");
+						if (delete.equalsIgnoreCase("yes")) {
+							int removeID = 0;
+							for (int x = 0; x < registeredUsers.size(); x++) {
+								if (loginUSER.getname().equals(registeredUsers.get(x).getname())) {
+									removeID = x;
+								}
+							}
+							deleteUser(registeredUsers, removeID + 1);
+						}
+					}
+					else if(navigate==4) {
+						C206_CaseStudy.viewAllRequest(requesttList, loginUSER.getname());
+					}
+					 
 				}
 
 			}
