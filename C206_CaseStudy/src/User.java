@@ -21,8 +21,7 @@ public class User {
 	private int contact_Number;
 	private String address;
 	private String password;
-	private String preference;
-	private ArrayList<User> Userlist = new ArrayList<User>();
+	
 
 	
 	
