@@ -20,9 +20,16 @@ public class C206_CaseStudyTest {
 	    quote q3;
 	    public ArrayList<Service> serviceList;
 	     Service s1;
+	     Service_Provider sp1;
+	     Service_Provider sp2;
+	     ArrayList<Service_Provider>SP_List=new  ArrayList<Service_Provider>();
+
 	@Before
 	public void setUp() throws Exception {
 		//prepare test data 
+		sp1=new Service_Provider("Nippon","qwerty","Cleaning","Jurong East");
+	    sp2=new Service_Provider("Daikin","blah","Cleaning","Ang Mo Kio");
+	  SP_List=new ArrayList<>();
 		 q1=  new quote("200","Pet Friendly");
 		 q3=  new quote("600","Shortage of manpower");
 		 user1 =new User("hahan","hahan@gmail.com",90803674,"jalan123","lol123");
@@ -474,7 +481,7 @@ public class C206_CaseStudyTest {
 
  
 
-  }
+  
 
 	
 
