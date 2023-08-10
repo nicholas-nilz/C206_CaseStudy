@@ -66,6 +66,52 @@ public class C206_CaseStudy {
 			    	viewAllUser(registeredUsers);	    
 			    }else if(which==2) {
 			     //C206_CaseStudy.viewAppointment(appointmentList);
+			    	//Appointment 
+			    	public static void viewAllAppointment(ArrayList<Appointment> AppointmentList) {
+			    		C206_CaseStudy.setHeader("Appointment List");	
+			    		String output = String.format("%-20s %-20s %-20s\n", "Date", "Time", "Additional Details");
+			    		output += retrieveAllAppointment(appointmentList);
+			    		System.out.println(output);
+			    	}
+
+			    	public static void deleteAppointment(ArrayList<Appointment> AppointmentList) {
+			    		Iterator<Appointment> iterator = AppointmentList.iterator();
+			    		   while (iterator.hasNext()) {
+			    		    Appointment A = iterator.next();
+			    		    if (A.getAppointmentDescription().equalsIgnoreCase(AppointmentDelete.getAppointmentDescription())) {
+			    		     iterator.remove();
+			    		     System.out.println("Appointment deleted.");
+			    		     return;
+			    		    }
+			    		   }
+			    		   System.out.println("Appointment not found.");
+			    		  }
+
+			    	public static void addAppointment(ArrayList<Appointment> AppointmentList, Appointment A) {
+			    		   Appointment booking;
+			    		   for (int i = 0; i < AppointmentList.size(); i++) {
+			    		   booking = AppointmentList.get(i);
+			    		    if (booking.getAppointmentDescription().equalsIgnoreCase(A.getAppointmentDescription()))
+			    		     return;
+			    		   }
+			    		   if ((A.getAppointmentDescription().isEmpty()) || (A.getAppointmentService().isEmpty())) {
+			    		    return;
+			    		   }
+			    		   AppointmentList.add(A);
+
+			    		  }
+
+			    	public static Appointment inputAppointment() {
+			    		   String date = Helper.readString("Enter Date > ");
+			    		   String time = Helper.readString("Enter Time > ");
+			    		   String additional_details = Helper.readString("Enter Additional Details > ");
+
+			    		   Appointment A = new Appointment(date, time, additional_details);
+			    		   return A;
+
+			    		  }
+			    	
+			    	
 			    }else if(which==3) {
 			     C206_CaseStudy.viewAllRequest(requesttList);
 			    }else if (which==4) {
@@ -609,4 +655,5 @@ public static void updateUser(ArrayList<User> userList,int updateID,User userinp
 		 }
 
 
+}
 
