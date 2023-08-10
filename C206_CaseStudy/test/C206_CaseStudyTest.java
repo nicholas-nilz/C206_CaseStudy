@@ -10,18 +10,43 @@ public class C206_CaseStudyTest {
 	    User user2 ;
 		ArrayList<User>userList;
 		private ArrayList<Request> requesttList;
+		private ArrayList<Appointment> AppointmentList;
 	    Request r1 ;
 	    Request r2 ;
+	    Appointment A1;
+	    Appointment A2;
+	    private ArrayList<quote> quoteList;
+	    quote q1;
+	    quote q3;
+	    public ArrayList<Service> serviceList;
+	     Service s1;
+	     Service_Provider sp1;
+	     Service_Provider sp2;
+	     ArrayList<Service_Provider>SP_List=new  ArrayList<Service_Provider>();
+
 	@Before
 	public void setUp() throws Exception {
 		//prepare test data 
+		sp1=new Service_Provider("Nippon","qwerty","Cleaning","Jurong East");
+	    sp2=new Service_Provider("Daikin","blah","Cleaning","Ang Mo Kio");
+	  SP_List=new ArrayList<>();
+		 q1=  new quote("200","Pet Friendly");
+		 q3=  new quote("600","Shortage of manpower");
 		 user1 =new User("hahan","hahan@gmail.com",90803674,"jalan123","lol123");
 		 user2=new User("jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 		 r1 = new Request("John","Painting Service", "Paint living room", "Pending");
-		  r2 = new Request("Cena","Carpentry Service", "Install shelves", "Pending");
+		 r2 = new Request("Cena","Carpentry Service", "Install shelves", "Pending");
+		 A1 = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
+		 A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
+		 
+		 s1 = new Service("Plumbing", "Plumbing service for kitchen", "Woodlands", 80.0);
+		  serviceList = new ArrayList<> ();
+		 
+		 
 		userList =new ArrayList<User>();
-		
+		AppointmentList=new ArrayList<Appointment>();
 		requesttList = new ArrayList<>();
+		quoteList= new ArrayList<>();
 	}
 
 	@After
@@ -45,9 +70,23 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addUser(userList,user2);
 		assertEquals("Check that userList arraylist size is 2", 2, userList.size());
 		assertSame("Check that user2 is added", user2, userList.get(1));
+
+		userList.remove(1);
+		// test add a duplicate username -error
+		User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
+		C206_CaseStudy.addUser(userList,userduplicate);
+		assertEquals("Check that userList arraylist size did not increase", 1, userList.size());
+		
+		//test add a wrong email format object 
+		User useremail =new User("hahan","errortest",90803674,"jalan123","lol123");
+		C206_CaseStudy.addUser(userList,userduplicate);
+		assertNotEquals("Check that userList arraylist size did not increase", 2, userList.size());
 	}
+		
+		
+	    
 	
-	String output = String.format("%-20s %-25s %-15s %-25s\n","Username","Email","Contact Number","Address");
+	
 	@Test 
 	public void testRetrieveUser() {
 		// Test if userlist is not null but empty -boundary
@@ -71,6 +110,12 @@ public class C206_CaseStudyTest {
 				 user2=new User("jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 				
 				assertEquals("Test that Viewalluser", testOutput, allUsers);
+				
+				userList.remove(1);
+				User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
+				C206_CaseStudy.addUser(userList,userduplicate);
+				//
+		
 	}
 	@Test 
 	public void testDeleteUser() {
@@ -80,7 +125,9 @@ public class C206_CaseStudyTest {
 				//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
 				assertEquals("Test that userList arraylist size is 2", 2, userList.size());
 			   
-				C206_CaseStudy.deleteUser(userList, 1);
+				boolean deleteuser2= C206_CaseStudy.deleteUser(userList, 1);
+				//test the boolean returned is true(success);
+				assertTrue(deleteuser2);
 				//test that the size of userList is reduced.
 				assertEquals("Test that userList arraylist size is reduce 1", 1, userList.size());
 				
@@ -88,8 +135,18 @@ public class C206_CaseStudyTest {
 
 				String testOutput = String.format("%-5d%-20s %-25s %-15s %-25s\n",1,"jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 				
+				//test only the second user is remove - normal
 				assertEquals("Test that second user is delete ", testOutput, allUsers);
-
+				
+				//test delete an object in empty arraylist- error
+				userList.clear();
+				boolean removeEmptyList =C206_CaseStudy.deleteUser(userList, 0);
+				assertFalse(removeEmptyList);
+				
+				
+				
+				
+				
 	}
 	@Test
 	 public void c206_test() {
@@ -138,7 +195,6 @@ public class C206_CaseStudyTest {
 	         // Duplicate request should not be added
 	         assertEquals(2, requesttList.size());
 	     }
-	  
 	  @Test
 	  public void testRetrieveAllRequest() {
 		   // Test if requesttlist is not null but empty -boundary
@@ -181,4 +237,252 @@ public class C206_CaseStudyTest {
 	         C206_CaseStudy.deleteRequest(requesttList, nonExistentRequest,"nonexist");
 	         assertEquals(0, requesttList.size());
 	     }
-		}
+	    
+	    
+	    @Test
+        public void testAddAppointment() {
+      // Test if Appointmentlist is not null but empty -boundary
+        assertNotNull("Check if there is valid userList arraylist to add to", AppointmentList);
+      
+      //Given an empty list, after adding 1 item, the size of the list is 1 - normal
+      //The item just added is as same as the first item of the list
+      C206_CaseStudy.addAppointment(AppointmentList, A1);
+      assertEquals("Check that userList arraylist size is 1", 1, AppointmentList.size());
+      assertSame("Check that A1 is added", A1, AppointmentList.get(0));
+      
+      //Add another item. Test the size of the list is 2? - normal
+      //The item just added is as same as the second item of the list
+      C206_CaseStudy.addAppointment(AppointmentList, A2);
+      assertEquals("Check that userList arraylist size is 2", 2, AppointmentList.size());
+      assertSame("Check that A2 is added", A2, AppointmentList.get(1));
+
+            Appointment duplicateAppointment = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
+            C206_CaseStudy.addAppointment(AppointmentList, duplicateAppointment);
+
+            // Duplicate appointment should not be added
+            assertEquals(2, AppointmentList.size());
+        }
+	    @Test
+	     public void testToCreateAppointment() {
+	      Appointment A = new Appointment("9 Aug 2023 ", "1400 ", "Please knock on the door instead of ringing the doorbell");
+	      assertNotNull(A);
+	      assertEquals("9 Aug 2023 ", A.getDate());
+	            assertEquals("1400 ", A.getTime());
+	            assertEquals("Please knock on the door instead of ringing the doorbell", A.getAdditional_details());
+	     }
+
+     @Test
+     public void testRetrieveAllAppointment() {
+         Appointment A1 = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
+         Appointment A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
+         AppointmentList.add(A1);
+         AppointmentList.add(A2);
+
+         String expectedOutput =String.format("%-20s %-20s %-20s \n",A1.getDate(),A1.getTime(),A1.getAdditional_details());
+          expectedOutput +=String.format("%-20s %-20s %-20s \n",A2.getDate(),A2.getTime(),A2.getAdditional_details());
+         System.out.println("!" + expectedOutput);
+         System.out.println("!" + C206_CaseStudy.retrieveAllAppointment(AppointmentList));
+         assertEquals(expectedOutput, C206_CaseStudy.retrieveAllAppointment(AppointmentList));
+     }
+     
+       @Test
+        public void testDeleteAppointment() {
+         Appointment A1 = new Appointment("9 Aug 2023 ", "1400 ", "Please knock on the door instead of ringing the doorbell");
+         Appointment A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
+         AppointmentList.add(A1);
+         AppointmentList.add(A2);
+
+            C206_CaseStudy.deleteAppointment(AppointmentList, A1);
+            assertEquals(1, AppointmentList.size());
+
+            C206_CaseStudy.deleteAppointment(AppointmentList, A2);
+            assertEquals(0, AppointmentList.size());
+
+            // Attempt to delete a appointment that doesn't exist
+            Appointment nonExistentAppoinment = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
+            C206_CaseStudy.deleteAppointment(AppointmentList, nonExistentAppoinment);
+            assertEquals(0, AppointmentList.size());
+        }
+       @Test
+       public void testRetrieveQuote() {
+           // Test if quotelist is not null but empty - boundary
+           assertNotNull("Check if there is a valid quotelist to add to", quoteList);
+           
+           // Given an empty list, after adding 1 item, test if the size of the list is 2 - normal
+           C206_CaseStudy.addQuote(quoteList, q1);
+           
+           assertEquals("Test that QuoteList arraylist size is 1", 1, quoteList.size());
+         
+  
+  
+  quote q2=  new quote("","Special needs workers");
+     boolean actual = q2.getQ_price() != null;
+
+     assertFalse(actual);
+ }
+    
+   
+       
+    
+    @Test
+    public void testAddQuote() {
+    	  // Test if userlist is not null but empty -boundary
+        assertNotNull("Check if there is a valid quotelist to add to", quoteList);
+
+        // Add a quote to the list
+        C206_CaseStudy.addQuote(quoteList, q1);
+        assertEquals("Check that quotelist arraylist size is 1", 1, quoteList.size());
+        assertSame("Check that quote1 is added", q1, quoteList.get(0));
+
+        // Check that q_price input is not a special character
+        if (q1.getQ_price()=="[^a-zA-Z0-9]") {
+            throw new IllegalArgumentException("Cannot add a special character!");
+         }else {
+          assertSame("Check that quote1 is added", q1, quoteList.get(0));
+         }
+    }
+    @Test
+    public void testDeleteQuote() {
+         quote rq1 = q1;
+         quote rq2 = q3;
+         quoteList.add(rq1);
+         quoteList.add(rq2);
+         
+         //Test if Quote is deleted
+         C206_CaseStudy.deleteQuote(quoteList, q1);
+         assertEquals(1, quoteList.size());
+
+         C206_CaseStudy.deleteQuote(quoteList, q3);
+         assertEquals(0, quoteList.size());
+
+         // Attempt to delete a quote that doesn't exist
+         quote Missingquote = new quote("10","Animal frendly");
+         C206_CaseStudy.deleteQuote(quoteList, Missingquote);
+         assertEquals(0, quoteList.size());
+         
+     }
+    @Test
+    public void testToCreateService() {
+     Service s = s1;
+     assertNotNull(s);
+     assertEquals("Plumbing", s.getType());
+           assertEquals("Plumbing service for kitchen", s.getDescription());
+           assertEquals("Woodlands", s.getLocation());
+    }
+  
+      @Test
+      public void testAddService() {
+          assertNotNull("Check if there is a valid serviceList arraylist to add to", serviceList);
+
+          C206_CaseStudy.addService(serviceList, s1);
+          assertEquals("Check that serviceList arraylist size is 1", 1, serviceList.size());
+          assertSame("Check that s1 is added", s1, serviceList.get(0));
+
+          Service duplicateService = new Service("Plumbing", "Plumbing service for kitchen", "Woodlands", 80.0);
+          C206_CaseStudy.addService(serviceList, duplicateService);
+
+          assertEquals("Check that duplicate service is not added", 1, serviceList.size());
+      }
+
+      @Test
+      public void testRetrieveAllService() {
+          assertNotNull("Check if there is a valid serviceList arraylist to add to", serviceList);
+
+          C206_CaseStudy.addService(serviceList, s1);
+          assertEquals("Test that serviceList arraylist size is 1", 1, serviceList.size());
+
+          String allServices = C206_CaseStudy.retrieveAllService(serviceList);
+
+          String expectedOutput = String.format("%-20s %-20s %-20s %-20s\n",
+              s1.getType(), s1.getDescription(), s1.getLocation(), s1.getBudget());
+
+          assertEquals("Test that ViewallServices", expectedOutput, allServices);
+      }
+
+
+      @Test
+      public void testDeleteService() {
+          Service sv1 = s1;
+          serviceList.add(s1);
+
+          C206_CaseStudy.deleteService(serviceList, s1, "Plumbing");
+          assertEquals("Check that serviceList arraylist size is reduced", 0, serviceList.size());
+          Service nonExistentService = new Service("nonExist", "Plumbing service for kitchen", "Woodlands", 80.0);
+          C206_CaseStudy.deleteService(serviceList, nonExistentService, "nonExist");
+          assertEquals("Check that non-existent service cannot be deleted", 0, serviceList.size());
+      }
+    //Test Service Provider
+      @Test
+    public void testCreateServiceProvider() {
+     Service_Provider sp = sp1;
+     assertNotNull(sp);
+     assertEquals("Nippon", sp.getcompanyName());
+           assertEquals("qwerty", sp.getpassword());
+           assertEquals("Cleaning", sp.getservice_category());
+           assertEquals("Jurong East",sp.getLocation());
+    }
+      
+      @Test
+       public void testAddServiceProvider() {
+     // Test if SP_List is not null but empty -boundary
+     assertNotNull("Check if there is valid userList arraylist to add to", SP_List);
+     
+     //Given an empty list, after adding 1 item, the size of the list is 1 - normal
+     //The item just added is as same as the first item of the list
+     C206_CaseStudy.addServiceProvider(SP_List, sp1);
+     assertEquals("Check that userList arraylist size is 1", 1, SP_List.size());
+     assertSame("Check that sp1 is added", sp1, SP_List.get(0));
+      
+     //Add another item. Test the size of the list is 2? - normal
+     //The item just added is as same as the second item of the list
+     C206_CaseStudy.addServiceProvider(SP_List, sp2);
+     assertEquals("Check that userList arraylist size is 2", 2, SP_List.size());
+     assertSame("Check that sp2 is added", sp2, SP_List.get(1));
+
+           Service_Provider duplicateSP = new Service_Provider("Nippon","qwerty","Cleaning","Jurong East");
+           C206_CaseStudy.addServiceProvider(SP_List, duplicateSP);
+
+           // Duplicate request should not be added
+           assertEquals(2, SP_List.size());
+       }
+      
+      @Test
+     public void testRetrieveServiceProvider() {
+       assertNotNull("Check if there is valid SP_List arraylist to add to",SP_List);
+       
+       C206_CaseStudy.addServiceProvider(SP_List, sp1);
+       assertEquals("Test that SP_List arraylist size is 1",1,SP_List.size());
+       
+       String allSP=C206_CaseStudy.retrieveServiceProvider(SP_List);
+       
+       String output=String.format("%-20s %-20s %-20s %-20s\n", sp1.getcompanyName(),sp1.getpassword(),sp1.getservice_category(),sp1.getLocation());
+       assertEquals("Test that ViewAllServiceProviders",output,allSP);
+      }
+      @Test
+       public void testDeleteServiceProvider() {
+           Service_Provider s1 = sp1;
+//           Service_Provider s2 = sp2;
+           SP_List.add(s1);
+//           SP_List.add(s2);
+
+           C206_CaseStudy.deleteServiceProvider(SP_List, s1,"Nippon");
+           assertEquals("Check that SP_List arraylist size is reduced",0, SP_List.size());
+
+           // Attempt to delete a request that doesn't exist
+           Service_Provider nonExistentSP = new Service_Provider("nonexist","qwerty","Cleaning","Jurong East");
+           C206_CaseStudy.deleteServiceProvider(SP_List, nonExistentSP,"nonexist");
+           assertEquals("Check that non-existent service cannot be deleted",0, SP_List.size());
+       }
+
+   }
+ 
+
+
+
+ 
+
+  
+
+	
+
+		

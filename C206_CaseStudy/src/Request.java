@@ -26,19 +26,21 @@ public class Request extends User {
 		this.requestStatus = requestStatus;
 	}
 
-	public String getRequestService() {
-		return requestService;
-	}
 
-	public String getRequestDescription() {
-		return requestDescription;
-	}
+    public String getRequestService() {
+        return requestService;
+    }
 
-	public String getRequestStatus() {
-		return requestStatus;
-	}
+    public String getRequestDescription() {
+        return requestDescription;
+    }
 
-	public void setRequestStatus(String status) {
-		this.requestStatus = status;
-	}
+ public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(String status) {
+        this.requestStatus = status;
+    }
 }
+
