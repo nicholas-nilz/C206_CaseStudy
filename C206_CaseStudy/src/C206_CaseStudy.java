@@ -10,7 +10,6 @@ public class C206_CaseStudy {
 		ArrayList<quote> quoteList = new ArrayList<quote>();
 		ArrayList<Request> requesttList = new ArrayList<Request>();
 		ArrayList<Service> serviceList = new ArrayList<Service>();
-		ArrayList<User> userList = new ArrayList<User>();
 		ArrayList<User> registeredUsers = new ArrayList<User>();
 		ArrayList<Service_Provider> SP_List = new ArrayList<Service_Provider>();
 		SP_List.add(new Service_Provider("Nippon", "qwerty", "Cleaning", "Jurong East"));
@@ -103,7 +102,10 @@ public class C206_CaseStudy {
 								registeredUsers.get(x).getContact(), registeredUsers.get(x).getAddress()));
 					}
 					int removeID = Helper.readInt("Please enter the ID to remove:");
-					deleteUser(registeredUsers, removeID);
+					char confirm =  Helper.readChar("Are you sure you wan tot delete(y/n):");
+					if(confirm=='y') {
+						deleteUser(registeredUsers, removeID);
+					}
 				} else if (which == 2) {
 					Appointment addApointment1 =inputAppointment();
 					
@@ -213,6 +215,7 @@ public class C206_CaseStudy {
 									removeID = x;
 								}
 							}
+							
 							deleteUser(registeredUsers, removeID + 1);
 						}
 					}
