@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,11 +17,11 @@ public class C206_CaseStudy {
 	    registeredUsers.add(new User("WeiSiang","ws@gmail.com",12345,"jalan123","lol123"));
 		 String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote",
 				"Service" };
-		 int Sprint =Helper.readInt("1.sprint 1\n2.sprint 2\nPlease enter which sprint:");
-		 if(Sprint==1) {
+		
+		 
 
 			  int option = 0;
-			  while (option != 4) {
+			  while (option != 8) {
 			   Menu();
 			   option = Helper.readInt("Please enter the number: ");
 
@@ -43,7 +42,11 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     Request r = inputRequest();
+			    	String username=Helper.readString("Please enter your username");
+			     Request r = inputRequest(username);
+			     
+			
+
 			     C206_CaseStudy.addRequest(requesttList, r);
 				 System.out.println("Request added");
 			    }else if (which==4) {
@@ -62,11 +65,13 @@ public class C206_CaseStudy {
 			    }
 			    int which = Helper.readInt("Please Enter a number to :");
 			    if (which==1) {
+			    	C206_CaseStudy.setHeader("View all user");
 			    	viewAllUser(registeredUsers);	    
 			    }else if(which==2) {
 			     //C206_CaseStudy.viewAppointment(appointmentList);
 			    }else if(which==3) {
-			     C206_CaseStudy.viewAllRequest(requesttList);
+			    	String username=Helper.readString("Please enter the username's request you wan tot display:");
+			     C206_CaseStudy.viewAllRequest(requesttList,username);
 			    }else if (which==4) {
 			     //C206_CaseStudy.viewServiceProvider(quoteList);
 			    }else if(which==5) {
@@ -74,6 +79,7 @@ public class C206_CaseStudy {
 			    }else if(which==6) {
 			     //C206_CaseStudy.viewService(serviceList);
 			    }
+			    //Delete 
 			   } else if (option == 3) { 
 			    System.out.println("\n");
 			    for (int i = 0; i < list.length; i++) {
@@ -93,8 +99,10 @@ public class C206_CaseStudy {
 			    }else if(which==2) {
 			     //
 			    }else if(which==3) {
-			     Request r = inputRequest();
-			     C206_CaseStudy.deleteRequest(requesttList, r);
+			    	String username=Helper.readString("Please enter your username");
+
+			     Request r = inputRequest(username);
+			     C206_CaseStudy.deleteRequest(requesttList, r,username);
 				 System.out.println("Request deleted");
 			    }else if (which==4) {
 			     //
@@ -105,45 +113,189 @@ public class C206_CaseStudy {
 			    }else if(which==6) {
 			     //
 			    }
-			   } else if (option == 5) {
-			    //addUser(userList,list);
+			    
+			    //Update
+			   } else if (option == 4) {
+				   //Update 
+				   System.out.println("\n");
+				    for (int i = 0; i < list.length; i++) {
+				     System.out.println(i + 1 + ":Update " + list[i]);
+				    }
+					    int which = Helper.readInt("Please Enter a number to Update:");
+					    
+					    if (which==1) {
+					    	C206_CaseStudy.setHeader("View all user");
+					    	viewAllUser(registeredUsers);
+							System.out.println("");
+							int updateID=Helper.readInt("Please enter the ID to update:");
+					    	User userUpdate= inputupdateUser(registeredUsers,updateID);
+					    	updateUser(registeredUsers,updateID,userUpdate);
+					    	
+					    }else if(which==2) {
+					     //
+					    }else if(which==3) {
+					    
+						 System.out.println("Request deleted");
+					    }else if (which==4) {
+					     
+					    }else if(which==5) {
+					     quote quoteinsert = inputQuote();
+				         C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
+					     System.out.println("Quote deleted");
+					    }else if(which==6) {
+					     //
+					    }
+				    }
+			   
+			   
+			   //Search
+			   
+			   
+			   else if(option == 5) {
+				 //Search  
+				   System.out.println("\n");
+				    for (int i = 0; i < list.length; i++) {
+				     System.out.println(i + 1 + ":Search " + list[i]);					
 			   }
+				    int which = Helper.readInt("Please Enter a number to Search:");
+				    if (which==1) {
+				    	setHeader("Search user");
+				    	System.out.println("Search by\n1.Username\n2.Contact number");
+				    	int searchby =Helper.readInt("Enter an number to search:");
+				    	if(searchby==1) {
+				    		String searchUsername= Helper.readString("Enter the user name you want to search:");
+				    	    String search=searchUserName(registeredUsers,searchUsername);
+				    		if(search!="") {
+				    			for (int x=0;x<registeredUsers.size();x++) {
+				    				if(registeredUsers.get(x).getname().equalsIgnoreCase(search)) {
+				    					//display search result
+				    					System.out.println("1 result founded");
+				    					   System.out.println(String.format("%-20s %-25s %-15s %-25s\n","Username","Email","Contact Number","Address"));
+				    					   System.out.println(String.format("%-20s %-25s %-15s %-25s\n",registeredUsers.get(x).getname(),registeredUsers.get(x).getEmail(),registeredUsers.get(x).getContact(),registeredUsers.get(x).getAddress()));
+				    				}}}
+				    		else {
+				    			System.out.println("There is no such username.\n");
+				    		}
+				    	}
+						if(searchby==2) {
+				    		int  searchUsercontact= Helper.readInt("Enter the user contact number you want to search:");		 
+				    		int search=searchUserContact(registeredUsers,searchUsercontact);
+				    		if(search!=0) {
+				    			for (int x=0;x<registeredUsers.size();x++) {
+				    				if(registeredUsers.get(x).getContact()==search) {
+				    					//display search result
+				    					System.out.println("1 result founded");
+				    					   System.out.println(String.format("%-20s %-25s %-15s %-25s\n","Username","Email","Contact Number","Address"));
+				    					   System.out.println(String.format("%-20s %-25s %-15s %-25s\n",registeredUsers.get(x).getname(),registeredUsers.get(x).getEmail(),registeredUsers.get(x).getContact(),registeredUsers.get(x).getAddress()));
+				    				}}
+				    		}
+				    		else {
+				    			System.out.println("There is no such conatct number.\n");
+				    		}
+						}
+				    	
+				    }else if(which==2) {
+				     //
+				    }else if(which==3) {
+				    	String username=Helper.readString("Please enter your username");
+				     Request r = inputRequest(username);
+				     C206_CaseStudy.deleteRequest(requesttList, r,username);
+					 System.out.println("Request deleted");
+				    }else if (which==4) {
+				     
+				    }else if(which==5) {
+				     quote quoteinsert = inputQuote();
+			         C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
+				     System.out.println("Quote deleted");
+				    }else if(which==6) {
+				     //
+				    }
 			  }
-			 }
+			   
+			   //Login
+			  if(option ==6) {
+				  String loginNAME="";
+					 String loginAs="";
+					
+								boolean loginSuccess=false;
+								while (!loginSuccess) {
+								    int category = Helper.readInt("Please enter your category:\n1.User\n2.Service Provider");
+
+								    if (category == 1) {
+								        String loginName = userLogin(registeredUsers);
+								        if (!loginName.isEmpty()) {
+								        	loginNAME = loginName;
+								            System.out.println("Welcome " + loginName + ", login successful.");
+								            loginAs = "user";
+								            loginSuccess=true;
+								        } else {
+								            System.out.println("Login failed, please try again.");
+								        }
+								    } else if (category == 2) {
+								        String loginName = SPLogin(SP_List);
+								        if (!loginName.isEmpty()) {
+								        	loginNAME = loginName;
+								            System.out.println("Welcome " + loginName + ", login successful.");
+								            loginAs = "sp";
+								            break; 
+								        } else {
+								            System.out.println("Login failed, please try again.");
+								        }}}
+								
+								
+								User loginUSER = null;
+								for (int x=0;x<registeredUsers.size();x++) {
+									if(loginNAME.equals(registeredUsers.get(x).getname())) {
+										loginUSER=registeredUsers.get(x); 
+									}
+								}
+								System.out.println("!"+loginUSER.getname());
+								
+								System.out.println("1. Deactivate account");
+								int navigate=Helper.readInt("Please enter a number to navigate:");
+								if(navigate==1) {
+									System.out.println("Are you sure you want delete account?(yes/no)"); 
+									String delete=Helper.readString("Please enter yes or no:");
+									if(delete.equalsIgnoreCase("yes")) {
+										int removeID=0;
+										for (int x=0;x<registeredUsers.size();x++) {
+											if(loginUSER.getname().equals(registeredUsers.get(x).getname())) {
+												removeID=x;
+											}
+										}
+										deleteUser(registeredUsers,removeID+1);  
+
+									}
+							    	
+								}
+								
+								}
+			  
+			  if(option ==7) {
+				  setHeader("Register User");
+				  System.out.println("Alert! email must end with @gmail.com");
+				  String username=Helper.readString("\nPlease enter username: ");
+					String email=Helper.readString("Please enter email: ");
+					int contact=Helper.readInt("Please enter contact number: ");
+					String address=Helper.readString("Please enter address: ");
+					String password=Helper.readString("Please enter password: ");
+					User userADD= new User(username,email,contact,address,password);
+			     addUser(registeredUsers,userADD); 
+				  
+			  }
+						   }
+			  }
+			  
+	
+			 
 		 
 		 		 
 		 
 		 
-		 else if(Sprint==2) {
-		 String loginSuccess="";
-		 String loginAs="";
-		 int Sprint2 = 0;
-			while (Sprint2 != 3) {
-					int category =0;
-					while (category != 3) {
-					    category = Helper.readInt("Please enter your category:\n1.User\n2.Service Provider");
-
-					    if (category == 1) {
-					        String loginName = userLogin(registeredUsers);
-					        if (!loginName.isEmpty()) {
-					            loginSuccess = loginName;
-					            System.out.println("Welcome " + loginName + ", login successful.");
-					            loginAs = "user";
-					            break;
-					        } else {
-					            System.out.println("Login failed, please try again.");
-					        }
-					    } else if (category == 2) {
-					        String loginName = SPLogin(SP_List);
-					        if (!loginName.isEmpty()) {
-					            loginSuccess = loginName;
-					            System.out.println("Welcome " + loginName + ", login successful.");
-					            loginAs = "sp";
-					            break; 
-					        } else {
-					            System.out.println("Login failed, please try again.");
-					        }
-					    }}}}
+		
+		 
+		 
+					    
 					
 					// Code here for the sprint two feature and rmb retrieve the variable loginSuccess as the username and loginAs as the role.
 					
@@ -155,7 +307,7 @@ public class C206_CaseStudy {
 
 					
 						
-				}
+				
 		
 		
 			
@@ -167,7 +319,12 @@ public class C206_CaseStudy {
 		System.out.println("Enter 1 for Add");
 		System.out.println("Enter 2 View All");
 		System.out.println("Enter 3 to Delete");
-		System.out.println("Enter 4 to Exit");
+		System.out.println("Enter 4 to Update");
+		System.out.println("Enter 5 to Search");
+		System.out.println("Enter 6 to Log in");
+		System.out.println("Enter 7 to Register");
+		System.out.println("Enter 8 to Exit");
+
 
 	}
 	 public static void setHeader(String header) {
@@ -180,7 +337,29 @@ public class C206_CaseStudy {
 		
 		
 			int before =userList.size();
-			userList.add(userAdd);
+			User user=userAdd;
+			if(user.getEmail().endsWith("@gmail.com")) {
+				boolean duplicate=false;
+				for (int x=0;x<userList.size();x++) {
+					if(userList.get(x).getname().equals(user.getname())) {
+						duplicate=true;
+						System.out.println("Username existed please try with a another username");
+						break;
+					}}
+				if(duplicate==false) {
+					userList.add(userAdd);
+				}
+				
+				
+			}
+			else {
+				System.out.println("Invalid email format(@gmail.com).");
+			}
+			
+			
+			
+			
+			
 			int after  =userList.size();
 			if(after>before) {
 				System.out.println("\nUser added successfully");
@@ -193,7 +372,7 @@ public class C206_CaseStudy {
 		System.out.println("User remove successfully.");
 }
 	public static void viewAllUser(ArrayList<User> userList) {
-		  C206_CaseStudy.setHeader("View all user");
+		  
 		  System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s\n", "ID", "Username", "Email", "Contact Number", "Address"));
 
 		String output = "";
@@ -201,6 +380,51 @@ public class C206_CaseStudy {
 		output+=retrieveUser(userList);
 		System.out.println(output);
 	}
+	
+public static User inputupdateUser(ArrayList<User> userList,int updateID) {
+		User userUpdate= userList.get(updateID-1);
+		String name = userUpdate.getname();
+		String email = userUpdate.getEmail();
+		int contact = userUpdate.getContact();
+		String password = userUpdate.getPassword(); // This is not a recommended practice
+		String address = userUpdate.getAddress();
+		
+		
+
+		System.out.println("1.Username\n2.Email\n3.Contact\n4.Password\n5.Address");
+		int update=Helper.readInt("Please enter the number you want to update:");
+		if(update==1) {
+			String newName=Helper.readString("Please enter yout new name:");
+			name=newName;
+		}
+		else if(update==2) {
+			String newEmail=Helper.readString("Please enter yout new email:");
+			email=newEmail;
+		}
+		else if(update==3) {
+			int  newContact=Helper.readInt("Please enter yout new contact number:");
+			contact=newContact;
+				}
+		else if(update==4) {
+			String newPassword=Helper.readString("Please enter yout new password:");
+			password=newPassword;
+		}
+		else if(update==5) {
+			String newAddress=Helper.readString("Please enter yout new address:");
+			address=newAddress;
+		}
+		
+		User updatedUser=new User(name,email,contact,password,address);
+		return updatedUser;
+}
+	
+	
+public static void updateUser(ArrayList<User> userList,int updateID,User userinput) {
+		
+		userList.set(updateID-1, userinput);
+		System.out.println("User update successfully.");
+}
+	
 	
 	
 	
@@ -214,6 +438,23 @@ public class C206_CaseStudy {
 		  }
 		  return output;
 		 }
+	 public static String searchUserName(ArrayList<User> userList,String username) {
+			String output="";
+			for (int x =0;x<userList.size();x++) {
+				if(userList.get(x).getname().equalsIgnoreCase(username)) {
+				output=username;					
+			}}
+			return output;
+	}
+	 public static int  searchUserContact(ArrayList<User> userList,int contact) {
+			
+		int output=0;
+			for (int x =0;x<userList.size();x++) {
+				if(userList.get(x).getContact()==contact) {
+				output=contact;					
+			}}
+			return output;	
+	}
 	
 	
 	
@@ -314,64 +555,76 @@ public class C206_CaseStudy {
 	  
 	 }
 	 
+	 public static Request inputRequest(String username) {
+		  String service = Helper.readString("Enter service > ");
+		  String description = Helper.readString("Enter description > ");
+		  String status = Helper.readString("Enter status > ");
 
-public static Request inputRequest() {
-			String service = Helper.readString("Enter service > ");
-			String description = Helper.readString("Enter description > ");
-			String date = Helper.readString("Enter date > ");
-			String status = Helper.readString("Enter status > ");
+		  Request r = new Request(username, service, description, status);
+		  return r;
 
-			Request r = new Request(service, description, date, status);
-			return r;
+		 }
+
+		 public static void addRequest(ArrayList<Request> requesttList, Request r) {
+		  
+			 
+			 Request request;
+			  for(int i = 0; i < requesttList.size(); i++) {
+				  request = requesttList.get(i);
+			   if (request.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()) )
+			    return;
+			  }
+			  if ((r.getname().isEmpty()) || (r.getRequestStatus().isEmpty()) ) {
+			   return;
+			  }
+		  requesttList.add(r);
+
+		 }
+
+		 public static String retrieveAllRequest(ArrayList<Request> requesttList, String username) {
+		  // TODO Auto-generated method stub
+		  String output = "";
+		  // write your code here
+		  for (int i = 0; i < requesttList.size(); i++) {
+		   Request request = requesttList.get(i);
+		   if (request.getname().equalsIgnoreCase(username)) {
+		    output += String.format("%-20s %-20s %-20s %-20s\n", request.getname(),
+		      requesttList.get(i).getRequestService(), requesttList.get(i).getRequestDescription(),
+		      requesttList.get(i).getRequestStatus());
+		   }
+		  }
+		  return output;
+		 }
+
+		 public static void viewAllRequest(ArrayList<Request> requesttList, String username) {
+		  // TODO Auto-generated method stub
+		  C206_CaseStudy.setHeader("Request List");
+		  String output = String.format("%-20s %-20s %-20s %-20s\n", "Username", "Service", "Description", "Status");
+		  output += retrieveAllRequest(requesttList, username);
+		  System.out.println(output);
+		 }
+
+		 public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete, String username) {
+		  Iterator<Request> iterator = requesttList.iterator();
+		  while (iterator.hasNext()) {
+		   Request request = iterator.next();
+		   if (request.getname().equalsIgnoreCase(username)
+		     && request.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
+		    iterator.remove();
+		    System.out.println("Request deleted.");
+		    return;
+		   }
+		  }
+		  System.out.println("Request not found.");
+		 }
 
 		}
 
-		public static void addRequest(ArrayList<Request> requesttList, Request r) {
-			Request service;
-			for (int i = 0; i < requesttList.size(); i++) {
-				service = requesttList.get(i);
-				if (service.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()))
-					return;
-			}
-			if ((r.getRequestDescription().isEmpty()) || (r.getRequestService().isEmpty())) {
-				return;
-			}
-			requesttList.add(r);
-
-		}
-
-		public static String retrieveAllRequest(ArrayList<Request> requesttList) {
-			// TODO Auto-generated method stub
-			String output = "";
-			// write your code here
-			for (int i = 0; i < requesttList.size(); i++) {
-
-				output += String.format("%-20s %-20s %-20s %-20s\n", requesttList.get(i).getRequestService(),
-						requesttList.get(i).getRequestDescription(), requesttList.get(i).getRequestDate(), requesttList.get(i).getRequestStatus());
-			}
-			return output;
-		}
-
-		public static void viewAllRequest(ArrayList<Request> requesttList) {
-			// TODO Auto-generated method stub
-			C206_CaseStudy.setHeader("Request List");
-			String output = String.format("%-20s %-20s %-20s %-20s\n", "Service", "Description", "Date", "Status");
-			output += retrieveAllRequest(requesttList);
-			System.out.println(output);
-		}
-
-		public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete) {
-			Iterator<Request> iterator = requesttList.iterator();
-			while (iterator.hasNext()) {
-				Request r = iterator.next();
-				if (r.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
-					iterator.remove();
-					System.out.println("Request deleted.");
-					return;
-				}
-			}
-			System.out.println("Request not found.");
-		}
+		 
 
 
-}
+
+
+
+
+
