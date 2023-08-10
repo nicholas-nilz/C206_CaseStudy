@@ -13,6 +13,7 @@
  * @author 65937
  *
  */
+
 public class Appointment {
 String date;
 String time;
@@ -29,6 +30,7 @@ public String getDate() {
 }
 
 public String getTime() {
+<<<<<<< HEAD
 	return time;
 }
 
@@ -42,5 +44,21 @@ public String toStirng() {
   
   return output;
 }
+=======
+  return time;
+}
+
+public String getAdditional_details() {
+  return additional_details;
+}
+
+public String toStirng() {
+  String output = super.toString();
+  output = String.format("Date: " + getDate() + "\n Time: " + getTime() + "\n Additional Details: " + getAdditional_details());
+  
+  return output;
+}
+
+>>>>>>> branch 'master' of https://github.com/nicholas-nilz/C206_CaseStudy.git
 
 }
