@@ -2,8 +2,6 @@ public class quote {
  String Q_details;
  String Q_description;
  
- 
- 
  //user register quote
  public quote(String Q_details,String Q_description) {
   this.Q_details=Q_details;
@@ -11,14 +9,14 @@ public class quote {
  }
 
  //service provider view quotes
- public quote(String Q_details,String Q_description,String Q_price,String additional_information) {
+ public quote(String Q_details,String Q_description,float Q_price,String additional_information) {
   this.Q_details=Q_details;
   this.Q_description=Q_description;
   this.Q_price=Q_price;
   this.additional_information=additional_information;
   
  }
- 
+ //asdadsasd
  public String getQ_details() {
   return Q_details;
  }
@@ -35,11 +33,11 @@ public class quote {
   Q_description = q_description;
  }
 
- public String getQ_price() {
+ public float getQ_price() {
   return Q_price;
  }
 
- public void setQ_price(String q_price) {
+ public void setQ_price(float q_price) {
   Q_price = q_price;
  }
 
@@ -51,6 +49,6 @@ public class quote {
   this.additional_information = additional_information;
  }
 
- String Q_price;
+ float Q_price;
  String additional_information;
 }

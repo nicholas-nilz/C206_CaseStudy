@@ -224,9 +224,7 @@ public class C206_CaseStudy {
 		}
 
 
-	/**
-	 * @param registeredUsers
-	 */
+	
 	private static void doDeleteUser(ArrayList<User> registeredUsers) {
 		System.out.println("Delete User");
 		Helper.line(80, "-");
@@ -462,7 +460,7 @@ public class C206_CaseStudy {
 		quote item;
 		for (int i = 0; i < quoteList.size(); i++) {
 			item = quoteList.get(i);
-			if (item.getQ_price().equalsIgnoreCase(quoteinsert.getQ_price()))
+			if (item.getQ_price()==(quoteinsert.getQ_price()))
 				return;
 		}
 		quoteList.add(quoteinsert);
@@ -714,7 +712,7 @@ public class C206_CaseStudy {
 	    System.out.println("Service not found.");
 	   }
 	   }
-	
+	//test
 
 		public static void doAddUser(ArrayList<User> registeredUsers) {
 			String username = Helper.readString("\nPlease enter username: ");

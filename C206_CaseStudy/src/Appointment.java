@@ -3,9 +3,9 @@
  * I do not copy or allow others to copy my code. 
  * I understand that copying code is considered as plagiarism.
  * 
- * Student Name: 65937
- * Student ID: {type your id here}
- * Class: {type your class here}
+ * Student Name: Tan Ying Xi
+ * Student ID: 22023689
+ * Class: W65C Day 4
  * Date/Time created: Saturday 08-07-2023 14:01
  */
 
@@ -30,7 +30,7 @@ public String getDate() {
 }
 
 public String getTime() {
-  return time;
+	return time;
 }
 
 public String getAdditional_details() {

@@ -15,19 +15,24 @@ import java.util.Date;
  * @author 65937
  *
  */
-public class Request extends User{
+public class Request {
+    private String username;
+
     private String requestService;
     private String requestDescription;
     private String requestStatus;
 
     public Request(String username,String requestService, String requestDescription, String requestStatus) {
-        super(username);
-    	this.requestService = requestService;
+        this.requestService = requestService;
+        this.username = username;
         this.requestDescription = requestDescription;
         this.requestStatus = requestStatus; 
     }
 
-
+    
+    public String getname() {
+    	return username;
+    }
 
     public String getRequestService() {
         return requestService;
