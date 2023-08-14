@@ -1,4 +1,3 @@
-import java.util.Date;
 
 /*
  * I declare that this code was written by me. 
@@ -15,38 +14,42 @@ import java.util.Date;
  * @author 65937
  *
  */
-public class Request {
-    private String username;
 
-    private String requestService;
-    private String requestDescription;
-    private String requestStatus;
+public class Request extends User {
+ private int requestId;
+ private String requestService;
+ private String requestDescription;
+ private String requestStatus;
 
-    public Request(String username,String requestService, String requestDescription, String requestStatus) {
-        this.requestService = requestService;
-        this.username = username;
-        this.requestDescription = requestDescription;
-        this.requestStatus = requestStatus; 
-    }
+ public Request(String username,String requestService, String requestDescription, String requestStatus) {
+     super(username);
+ 	this.requestService = requestService;
+     this.requestDescription = requestDescription;
+     this.requestStatus = requestStatus; 
+ }
 
-    
-    public String getname() {
-    	return username;
-    }
+ public int getRequestId() {
+  return requestId;
+ }
 
-    public String getRequestService() {
-        return requestService;
-    }
+ public String getRequestService() {
+  return requestService;
+ }
 
-    public String getRequestDescription() {
-        return requestDescription;
-    }
+ public String getRequestDescription() {
+  return requestDescription;
+ }
 
  public String getRequestStatus() {
-        return requestStatus;
-    }
+  return requestStatus;
+ }
 
-    public void setRequestStatus(String status) {
-        this.requestStatus = status;
-    }
+ public void setRequestStatus(String status) {
+  this.requestStatus = status;
+ }
+
+ public void setId(int nextRequestId) {
+ }
+ 
+ 
 }

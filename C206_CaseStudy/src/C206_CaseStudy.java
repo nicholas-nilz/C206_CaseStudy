@@ -16,6 +16,7 @@ public class C206_CaseStudy {
 		registeredUsers.add(new User("WeiSiang", "ws@gmail.com", 12345, "jalan123", "lol123"));
 		String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote", "Service" };
 		serviceList.add(new Service("Cleaning house","clean backyard","jurong east",100.00));
+		requesttList.add(new Request("WeiSiang","Clean","Clean backyard","pending"));
 		int option = 0;
 		while (option != 6) {
 			Menu();
@@ -69,7 +70,7 @@ public class C206_CaseStudy {
 					C206_CaseStudy.viewAllAppointment(appointmentList);
 
 				} else if (which == 3) {
-					String username = Helper.readString("Please enter the username's request you wan tot display:");
+					String username = Helper.readString("Please enter the username's request you want to display:");
 					C206_CaseStudy.viewAllRequest(requesttList, username);
 				} else if (which == 4) {
 					C206_CaseStudy.viewServiceProvider(SP_List);				
@@ -93,11 +94,21 @@ public class C206_CaseStudy {
 					
 					
 				} else if (which == 3) {
-					String username = Helper.readString("Please enter your username");
-
-					Request r = inputRequest(username);
-					C206_CaseStudy.deleteRequest(requesttList, r, username);
-					System.out.println("Request deleted");
+				     System.out.println("Delete Request");
+				     Helper.line(80, "-");
+				     System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s", "ID", "Username", "Service",
+				       "Description", "Status"));
+				     Helper.line(80, "-");
+				     for (int n = 0; n < requesttList.size(); n++) {
+				      System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s\n", n + 1,
+				        requesttList.get(n).getname(), requesttList.get(n).getRequestService(),
+				        requesttList.get(n).getRequestDescription(), requesttList.get(n).getRequestStatus()));
+				     }
+				     String username= Helper.readString("Please enter the username: ");
+				     int removeID = Helper.readInt("Please enter the ID to remove: ");
+				     
+				     
+				     C206_CaseStudy.deleteRequest(requesttList, username, removeID);
 				} else if (which == 4) {
 					String CompanyName=Helper.readString("Enter your company's name: ");
 			    	Service_Provider sp=inputServiceProvider(CompanyName);
@@ -515,20 +526,19 @@ public class C206_CaseStudy {
 		System.out.println(output);
 	}
 
-	public static void deleteRequest(ArrayList<Request> requesttList, Request requestDelete, String username) {
-		Iterator<Request> iterator = requesttList.iterator();
-		while (iterator.hasNext()) {
-			Request request = iterator.next();
-			if (request.getname().equalsIgnoreCase(username)
-					&& request.getRequestDescription().equalsIgnoreCase(requestDelete.getRequestDescription())) {
-				iterator.remove();
-				System.out.println("Request deleted.");
-				return;
-			}
-		}
-		System.out.println("Request not found.");
-	}
-
+	public static void deleteRequest(ArrayList<Request> requesttList, String username, int removeID) {
+	     Iterator<Request> iterator = requesttList.iterator();
+	     while (iterator.hasNext()) {
+	         Request request = iterator.next();
+	         if ( request.getname().equalsIgnoreCase(username) &&request.getRequestId() == removeID-1) {
+	             iterator.remove();
+	             System.out.println("Request deleted.");
+	             return;
+	         }
+	     }
+	     System.out.println("Request not found.");
+	 }
+	
 	public static String retrieveAllAppointment(ArrayList<Appointment> appointmentList) {
 		// TODO Auto-generated method stub
 		String output = "";

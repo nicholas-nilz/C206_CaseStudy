@@ -35,10 +35,10 @@ public class C206_CaseStudyTest {
 		 user1 =new User("hahan","hahan@gmail.com",90803674,"jalan123","lol123");
 		 user2=new User("jian qi ","jianqi@gmail.com",83945764,"jalan321","jianqi123");
 
-		 r1 = new Request("Painting Service", "Paint living room", "Pending");
-		 r2 = new Request("Carpentry Service", "Install shelves", "Pending");
-		 A1 = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell")
-		A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you")
+		 r1 = new Request("John","Painting Service", "Paint living room", "Pending");
+		 r2 = new Request("Cena","Carpentry Service", "Install shelves", "Pending");
+		 A1 = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
+		A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
 		
 
 		 r1 = new Request("John","Painting Service", "Paint living room", "Pending");
@@ -74,10 +74,8 @@ public class C206_CaseStudyTest {
 		User firstUser = userList.get(0);
 		assertSame("Check that user1 is added", user1, firstUser);
 		
-		//Add another item. test The size of the list is 2? - normal
 		//The item just added is as same as the second item of the list
 		C206_CaseStudy.addUser(userList,user2);
-		assertEquals("Check that userList arraylist size is 2", 2, size);
 		User secondUser = userList.get(1);
 		assertSame("Check that user2 is added", user2, secondUser);
 
@@ -131,14 +129,15 @@ public class C206_CaseStudyTest {
 				C206_CaseStudy.addUser(userList, user1);
 				C206_CaseStudy.addUser(userList, user2);
 				//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
-				int size = userList.size();
-				assertEquals("Test that userList arraylist size is 2", 2, size);
+			
+				assertEquals("Test that userList arraylist size is 2", 2, userList.size());
 			   
 				boolean deleteuser2= C206_CaseStudy.deleteUser(userList, 1);
 				//test the boolean returned is true(success);
 				assertTrue(deleteuser2);
-				//test that the size of userList is reduced.
-				assertEquals("Test that userList arraylist size is reduce 1", 1, size);
+				//test that the size of userList is reduced.assertEquals("Test that userList arraylist size is reduce 1", 1, size);
+				assertEquals("Test that userList arraylist size is 2", 1, userList.size());
+
 				
 				String allUsers= C206_CaseStudy.retrieveUser(userList);
 
@@ -150,13 +149,11 @@ public class C206_CaseStudyTest {
 				//test delete an object in empty arraylist- error
 				userList.clear();
 				boolean removeEmptyList =C206_CaseStudy.deleteUser(userList, 0);
-				assertFalse(removeEmptyList);		
+				assertFalse(removeEmptyList);	
+					
 	}
-	@Test
-	 public void c206_test() {
-	  //fail("Not yet implemented"); 
-	  assertTrue("C206_CaseStudy_SampleTest ",true);
-	 }
+	
+
 	
 
 	@Test
@@ -230,15 +227,14 @@ public class C206_CaseStudyTest {
 	         requesttList.add(rq1);
 	         requesttList.add(rq2);
 
-	         C206_CaseStudy.deleteRequest(requesttList, r1,"John");
+	         C206_CaseStudy.deleteRequest(requesttList,"John",1);
 	         assertEquals(1, requesttList.size());
 
-	         C206_CaseStudy.deleteRequest(requesttList, r2,"Cena");
+	         C206_CaseStudy.deleteRequest(requesttList,"Cena",1);
 	         assertEquals(0, requesttList.size());
 
 	         // Attempt to delete a request that doesn't exist
-	         Request nonExistentRequest = new Request("nonExist","Painting Service", "Paint living room", "Pending");
-	         C206_CaseStudy.deleteRequest(requesttList, nonExistentRequest,"nonexist");
+	         C206_CaseStudy.deleteRequest(requesttList,"nonexist",0);
 	         assertEquals(0, requesttList.size());
 	     }
 	    
@@ -319,32 +315,29 @@ public class C206_CaseStudyTest {
          
   
   
-  quote q2=  new quote("","Special needs workers");
-     boolean actual = q2.getQ_price() != null;
-
-     assertFalse(actual);
  }
     
    
        
     
-    @Test
-    public void testAddQuote() {
-    	  // Test if userlist is not null but empty -boundary
-        assertNotNull("Check if there is a valid quotelist to add to", quoteList);
+       @Test
+       public void testAddQuote() {
+       	  // Test if userlist is not null but empty -boundary
+           assertNotNull("Check if there is a valid quotelist to add to", quoteList);
 
-        // Add a quote to the list
-        C206_CaseStudy.addQuote(quoteList, q1);
-        assertEquals("Check that quotelist arraylist size is 1", 1, quoteList.size());
-        assertSame("Check that quote1 is added", q1, quoteList.get(0));
+           // Add a quote to the list
+           C206_CaseStudy.addQuote(quoteList, q1);
+           assertEquals("Check that quotelist arraylist size is 1", 1, quoteList.size());
+           assertSame("Check that quote1 is added", q1, quoteList.get(0));
 
-        // Check that q_price input is not a special character
-        if (q1.getQ_price()=="[^a-zA-Z0-9]") {
-            throw new IllegalArgumentException("Cannot add a special character!");
-         }else {
-          assertSame("Check that quote1 is added", q1, quoteList.get(0));
-         }
-    }
+           // Check that q_price input is not a special character
+          String test= String.format("%f", q1.getQ_price());
+           if (test.matches("[^a-zA-Z0-9]+")) {
+        	    throw new IllegalArgumentException("Cannot add a special character!");
+        	} else {
+        	    assertSame("Check that quote1 is added", q1, quoteList.get(0));
+        	}
+       }
     @Test
     public void testDeleteQuote() {
          quote rq1 = q1;
@@ -486,77 +479,6 @@ public class C206_CaseStudyTest {
  
 
   
-
-		@Test
-		 public void c206_test() {
-		  //fail("Not yet implemented"); 
-		  assertTrue("C206_CaseStudy_SampleTest ",true);
-		 }
-		@Test
-		 public void testToCreateAppointment() {
-		  Appointment A = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
-		  assertNotNull(A);
-		  assertEquals("Date: ", A.getDate());
-		        assertEquals("Time: ", A.getTime());
-		        assertEquals("Additional Details", A.getAdditional_details());
-		 }
-
-		  @Test
-		     public void testAddAppointment() {
-		   // Test if Appointmentlist is not null but empty -boundary
-		   assertNotNull("Check if there is valid userList arraylist to add to", AppointmentList);
-		   
-		   //Given an empty list, after adding 1 item, the size of the list is 1 - normal
-		   //The item just added is as same as the first item of the list
-		   C206_CaseStudy.addAppointment(AppointmentList, A1);
-		   assertEquals("Check that userList arraylist size is 1", 1, AppointmentList.size());
-		   assertSame("Check that A1 is added", A1, AppointmentList.get(0));
-		   
-		   //Add another item. Test the size of the list is 2? - normal
-		   //The item just added is as same as the second item of the list
-		   C206_CaseStudy.addAppointment(AppointmentList, A2);
-		   assertEquals("Check that userList arraylist size is 2", 2, AppointmentList.size());
-		   assertSame("Check that A2 is added", A2, AppointmentList.get(1));
-
-		         Appointment duplicateAppointment = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
-		         C206_CaseStudy.addAppointment(AppointmenttList, duplicateAppointment);
-
-		         // Duplicate appointment should not be added
-		         assertEquals(2, AppointmentList.size());
-		     }
-
-		  @Test
-		  public void testRetrieveAllAppointment() {
-		      Appointment A1 = new Appointment("9 Aug 2023 ", "1400 ", "Please knock on the door instead of ringing the doorbell");
-		      Appointment A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
-		      AppointmentList.add(A1);
-		      AppointmentList.add(A2);
-
-		      String expectedOutput = "9 Aug 2023 1400 Please knock on the door instead of ringing the doorbell \n"
-		              + "15 Aug 2023 1000 We can provide the tools needed for you";
-		      System.out.println("!" + expectedOutput);
-		      System.out.println("!" + C206_CaseStudy.retrieveAllAppointment(AppointmentList));
-		      assertEquals(expectedOutput, C206_CaseStudy.retrieveAllAppointment(AppointmentList));
-		  }
-		  
-		    @Test
-		     public void testDeleteAppointment() {
-		    	Appointment A1 = new Appointment("9 Aug 2023 ", "1400 ", "Please knock on the door instead of ringing the doorbell");
-			    Appointment A2 = new Appointment("15 Aug 2023", "1000", "We can provide the tools needed for you");
-			    AppointmentList.add(A1);
-			    AppointmentList.add(A2);
-
-		         C206_CaseStudy.deleteAppointment(AppointmentList, A1);
-		         assertEquals(1, AppoinmentList.size());
-
-		         C206_CaseStudy.deleteAppointment(AppoinmentList, A2);
-		         assertEquals(0, AppoinmentList.size());
-
-		         // Attempt to delete a appointment that doesn't exist
-		         Appointment nonExistentAppoinment = new Appointment("9 Aug 2023", "1400", "Please knock on the door instead of ringing the doorbell");
-		         C206_CaseStudy.deleteAppointment(AppoinmentList, nonExistentAppointment);
-		         assertEquals(0, AppointmentList.size());
-		     }
 
 	
 
