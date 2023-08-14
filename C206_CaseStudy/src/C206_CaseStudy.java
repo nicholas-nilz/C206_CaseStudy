@@ -28,13 +28,7 @@ public class C206_CaseStudy {
 				}
 				int which = Helper.readInt("Please Enter a number to Add:");
 				if (which == 1) {
-					String username = Helper.readString("\nPlease enter username: ");
-					String email = Helper.readString("Please enter email: ");
-					int contact = Helper.readInt("Please enter contact number: ");
-					String address = Helper.readString("Please enter address: ");
-					String password = Helper.readString("Please enter password: ");
-					User userADD = new User(username, email, contact, address, password);
-					addUser(registeredUsers, userADD);
+					doAddUser( registeredUsers);
 				} else if (which == 2) {
 					Appointment addApointment1 =inputAppointment();
 					addAppointment(appointmentList,addApointment1);
@@ -91,21 +85,7 @@ public class C206_CaseStudy {
 				}
 				int which = Helper.readInt("Please Enter a number to Delete:");
 				if (which == 1) {
-					System.out.println("Delete User");
-					Helper.line(80, "-");
-					System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s", "ID", "Username", "Email",
-							"Contact Number", "Address"));
-					Helper.line(80, "-");
-					for (int x = 0; x < registeredUsers.size(); x++) {
-						System.out.println(String.format("%-5d%-20s %-25s %-15d %-25s\n", x + 1,
-								registeredUsers.get(x).getname(), registeredUsers.get(x).getEmail(),
-								registeredUsers.get(x).getContact(), registeredUsers.get(x).getAddress()));
-					}
-					int removeID = Helper.readInt("Please enter the ID to remove:");
-					char confirm =  Helper.readChar("Are you sure you wan tot delete(y/n):");
-					if(confirm=='y') {
-						deleteUser(registeredUsers, removeID);
-					}
+					doDeleteUser(registeredUsers);
 				} else if (which == 2) {
 					Appointment addApointment1 =inputAppointment();
 					
@@ -133,7 +113,7 @@ public class C206_CaseStudy {
 				         System.out.println("Service deleted");
 				}
 
-				// Update
+				
 			} 
 
 			// Login
@@ -169,43 +149,42 @@ public class C206_CaseStudy {
 				}
 
 				User loginUSER = null;
+				int UserID=0;
 				for (int x = 0; x < registeredUsers.size(); x++) {
 					if (loginNAME.equals(registeredUsers.get(x).getname())) {
 						loginUSER = registeredUsers.get(x);
+						UserID=x;
 					}
 				}
 
 				
 				int navigate=100;
-				while (navigate!=5) {
-					System.out.println("1. View all service");
-					System.out.println("2. Add request");
-					System.out.println("3. Deactivate account");
-					
+				while (navigate!=1) {
+					System.out.println("1.Exit");
+					System.out.println("2. View all service");
+					System.out.println("3. Add request");
+					System.out.println("4. Deactivate account");
+					System.out.println("5. Update account");
 					if(requesttList.size()!=0) {
-						System.out.println("4. View Request");
-						System.out.println("5. Exit");						
-					}
-					else {
-						System.out.println("5.Exit");
-					}
+						System.out.println("6. View Request");}
+					
 				
 					
 					
 				    navigate = Helper.readInt("Please enter a number to navigate:");
 					
-					 if(navigate==1) {
+					 if(navigate==2) {
 						C206_CaseStudy.viewAllService(serviceList);
 
 						
 					}
-					else if(navigate==2) {
+					else if(navigate==3) {
 						C206_CaseStudy.viewAllService(serviceList);
 						Request r = inputRequest(loginUSER.getname());
 						C206_CaseStudy.addRequest(requesttList, r);
 						System.out.println("Request added");
 					}
-					else if (navigate == 3) {
+					else if (navigate == 4) {
 						System.out.println("Are you sure you want delete account?(yes/no)");
 						String delete = Helper.readString("Please enter yes or no:");
 						if (delete.equalsIgnoreCase("yes")) {
@@ -219,8 +198,11 @@ public class C206_CaseStudy {
 							deleteUser(registeredUsers, removeID + 1);
 						}
 					}
-					else if(navigate==4) {
+					else if(navigate==6) {
 						C206_CaseStudy.viewAllRequest(requesttList, loginUSER.getname());
+					}
+					else if (navigate==5) {
+						updateUser(registeredUsers, UserID, inputupdateUser(registeredUsers,UserID));
 					}
 					 
 				}
@@ -238,9 +220,31 @@ public class C206_CaseStudy {
 				User userADD = new User(username, email, contact, address, password);
 				addUser(registeredUsers, userADD);
 
-			}
+			}}
+		}
+
+
+	/**
+	 * @param registeredUsers
+	 */
+	private static void doDeleteUser(ArrayList<User> registeredUsers) {
+		System.out.println("Delete User");
+		Helper.line(80, "-");
+		System.out.println(String.format("%-5s%-20s %-25s %-15s %-25s", "ID", "Username", "Email",
+				"Contact Number", "Address"));
+		Helper.line(80, "-");
+		for (int x = 0; x < registeredUsers.size(); x++) {
+			System.out.println(String.format("%-5d%-20s %-25s %-15d %-25s\n", x + 1,
+					registeredUsers.get(x).getname(), registeredUsers.get(x).getEmail(),
+					registeredUsers.get(x).getContact(), registeredUsers.get(x).getAddress()));
+		}
+		int removeID = Helper.readInt("Please enter the ID to remove:");
+		char confirm =  Helper.readChar("Are you sure you wan tot delete(y/n):");
+		if(confirm=='y') {
+			deleteUser(registeredUsers, removeID);
 		}
 	}
+	
 
 	// Code here for the sprint two feature and rmb retrieve the variable
 	// loginSuccess as the username and loginAs as the role.
@@ -264,12 +268,16 @@ public class C206_CaseStudy {
 
 	public static void addUser(ArrayList<User> userList, User userAdd) {
 
-		int before = userList.size();
+		int size = userList.size();
+		int before = size;
 		User user = userAdd;
-		if (user.getEmail().endsWith("@gmail.com")) {
+		String email = user.getEmail();
+		if (email.endsWith("@gmail.com")) {
 			boolean duplicate = false;
-			for (int x = 0; x < userList.size(); x++) {
-				if (userList.get(x).getname().equals(user.getname())) {
+			for (int x = 0; x < size; x++) {
+				String nameInTheList = userList.get(x).getname();
+				String inputName = user.getname();
+				if (nameInTheList.equals(inputName)) {
 					duplicate = true;
 					System.out.println("Username existed please try with a another username");
 					break;
@@ -283,10 +291,9 @@ public class C206_CaseStudy {
 			System.out.println("Invalid email format(@gmail.com).");
 		}
 
-		int after = userList.size();
+		int after = size;
 		if (after > before) {
 			System.out.println("\nUser added successfully");
-
 		}
 	}
 
@@ -315,11 +322,11 @@ public class C206_CaseStudy {
 	}
 
 	public static User inputupdateUser(ArrayList<User> userList, int updateID) {
-		User userUpdate = userList.get(updateID - 1);
+		User userUpdate = userList.get(updateID );
 		String name = userUpdate.getname();
 		String email = userUpdate.getEmail();
 		int contact = userUpdate.getContact();
-		String password = userUpdate.getPassword(); // This is not a recommended practice
+		String password = userUpdate.getPassword(); 
 		String address = userUpdate.getAddress();
 
 		System.out.println("1.Username\n2.Email\n3.Contact\n4.Password\n5.Address");
@@ -347,7 +354,7 @@ public class C206_CaseStudy {
 
 	public static void updateUser(ArrayList<User> userList, int updateID, User userinput) {
 
-		userList.set(updateID - 1, userinput);
+		userList.set(updateID , userinput);
 		System.out.println("User update successfully.");
 	}
 
@@ -357,32 +364,17 @@ public class C206_CaseStudy {
 		// write your code here
 		for (int x = 0; x < userList.size(); x++) {
 
-			output += String.format("%-5d%-20s %-25s %-15d %-25s\n", x + 1, userList.get(x).getname(),
-					userList.get(x).getEmail(), userList.get(x).getContact(), userList.get(x).getAddress());
+			String username = userList.get(x).getname();
+			String email = userList.get(x).getEmail();
+			int contact_number = userList.get(x).getContact();
+			String address = userList.get(x).getAddress();
+			output += String.format("%-5d%-20s %-25s %-15d %-25s\n", x + 1, username,
+					email, contact_number, address);
 		}
 		return output;
 	}
 
-	public static String searchUserName(ArrayList<User> userList, String username) {
-		String output = "";
-		for (int x = 0; x < userList.size(); x++) {
-			if (userList.get(x).getname().equalsIgnoreCase(username)) {
-				output = username;
-			}
-		}
-		return output;
-	}
-
-	public static int searchUserContact(ArrayList<User> userList, int contact) {
-
-		int output = 0;
-		for (int x = 0; x < userList.size(); x++) {
-			if (userList.get(x).getContact() == contact) {
-				output = contact;
-			}
-		}
-		return output;
-	}
+	
 
 	public static String userLogin(ArrayList<User> registeredUsers) {
 		System.out.println("Login as User");
@@ -390,10 +382,12 @@ public class C206_CaseStudy {
 		String password = Helper.readString("Please enter your password: ");
 		String LoginUsername = "";
 
-		for (int x = 0; x < registeredUsers.size(); x++) {
-						if (username.equals(registeredUsers.get(x).getname())
+		int size = registeredUsers.size();
+		for (int x = 0; x < size; x++) {
+						String getname = registeredUsers.get(x).getname();
+						if (username.equals(getname)
 					&& password.equals(registeredUsers.get(x).getPassword())) {
-				LoginUsername = registeredUsers.get(x).getname();
+				LoginUsername = getname;
 				break;
 			}
 
@@ -720,7 +714,17 @@ public class C206_CaseStudy {
 	    System.out.println("Service not found.");
 	   }
 	   }
-	}
+	
+
+		public static void doAddUser(ArrayList<User> registeredUsers) {
+			String username = Helper.readString("\nPlease enter username: ");
+			String email = Helper.readString("Please enter email: ");
+			int contact = Helper.readInt("Please enter contact number: ");
+			String address = Helper.readString("Please enter address: ");
+			String password = Helper.readString("Please enter password: ");
+			User userADD = new User(username, email, contact, address, password);
+			addUser(registeredUsers, userADD);
+		}}
 	
 
 

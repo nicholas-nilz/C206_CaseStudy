@@ -24,7 +24,7 @@ public class User {
 	
 
 	
-	
+	//push
 public User(String username,String email,int contact_Number,String address,String password) {
 	this.username=username;
 	this.email=email;
@@ -59,6 +59,21 @@ public String getAddress() {
 }
 public String getPassword() {
 	return password;
+}
+public void setUsername(String x) {
+	username=x;
+}
+public void setPassword(String x) {
+	password=x;
+}
+public void setAddress(String x) {
+	address=x;
+}
+public void setContact(int x) {
+	contact_Number=x;
+}
+public void setEmail(String x) {
+	email=x;
 }
 
 

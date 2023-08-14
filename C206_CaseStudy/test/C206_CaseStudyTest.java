@@ -62,25 +62,28 @@ public class C206_CaseStudyTest {
 		//Given an empty list, after adding 1 item, the size of the list is 1 - normal
 		//The item just added is as same as the first item of the list
 		C206_CaseStudy.addUser(userList,user1);
-		assertEquals("Check that userList arraylist size is 1", 1, userList.size());
-		assertSame("Check that user1 is added", user1, userList.get(0));
+		int size = userList.size();
+		assertEquals("Check that userList arraylist size is 1", 1, size);
+		User firstUser = userList.get(0);
+		assertSame("Check that user1 is added", user1, firstUser);
 		
 		//Add another item. test The size of the list is 2? - normal
 		//The item just added is as same as the second item of the list
 		C206_CaseStudy.addUser(userList,user2);
-		assertEquals("Check that userList arraylist size is 2", 2, userList.size());
-		assertSame("Check that user2 is added", user2, userList.get(1));
+		assertEquals("Check that userList arraylist size is 2", 2, size);
+		User secondUser = userList.get(1);
+		assertSame("Check that user2 is added", user2, secondUser);
 
 		userList.remove(1);
 		// test add a duplicate username -error
 		User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
 		C206_CaseStudy.addUser(userList,userduplicate);
-		assertEquals("Check that userList arraylist size did not increase", 1, userList.size());
+		assertEquals("Check that userList arraylist size did not increase", 1, size);
 		
 		//test add a wrong email format object 
 		User useremail =new User("hahan","errortest",90803674,"jalan123","lol123");
-		C206_CaseStudy.addUser(userList,userduplicate);
-		assertNotEquals("Check that userList arraylist size did not increase", 2, userList.size());
+		C206_CaseStudy.addUser(userList,useremail);
+		assertNotEquals("Check that userList arraylist size did not increase", 2, size);
 	}
 		
 		
@@ -100,7 +103,8 @@ public class C206_CaseStudyTest {
 		//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
 		C206_CaseStudy.addUser(userList, user1);
 		C206_CaseStudy.addUser(userList, user2);
-		assertEquals("Test that userList arraylist size is 2", 2, userList.size());
+		int size = userList.size();
+		assertEquals("Test that userList arraylist size is 2", 2, size);
 		
 		//test if the expected output string same as the list of users retrieved from the source
 		allUsers= C206_CaseStudy.retrieveUser(userList);
@@ -111,10 +115,7 @@ public class C206_CaseStudyTest {
 				
 				assertEquals("Test that Viewalluser", testOutput, allUsers);
 				
-				userList.remove(1);
-				User userduplicate =new User("hahan","ws@gmail.com",90128394,"jalan321","lol345");
-				C206_CaseStudy.addUser(userList,userduplicate);
-				//
+				
 		
 	}
 	@Test 
@@ -123,13 +124,14 @@ public class C206_CaseStudyTest {
 				C206_CaseStudy.addUser(userList, user1);
 				C206_CaseStudy.addUser(userList, user2);
 				//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
-				assertEquals("Test that userList arraylist size is 2", 2, userList.size());
+				int size = userList.size();
+				assertEquals("Test that userList arraylist size is 2", 2, size);
 			   
 				boolean deleteuser2= C206_CaseStudy.deleteUser(userList, 1);
 				//test the boolean returned is true(success);
 				assertTrue(deleteuser2);
 				//test that the size of userList is reduced.
-				assertEquals("Test that userList arraylist size is reduce 1", 1, userList.size());
+				assertEquals("Test that userList arraylist size is reduce 1", 1, size);
 				
 				String allUsers= C206_CaseStudy.retrieveUser(userList);
 
@@ -141,12 +143,7 @@ public class C206_CaseStudyTest {
 				//test delete an object in empty arraylist- error
 				userList.clear();
 				boolean removeEmptyList =C206_CaseStudy.deleteUser(userList, 0);
-				assertFalse(removeEmptyList);
-				
-				
-				
-				
-				
+				assertFalse(removeEmptyList);		
 	}
 	@Test
 	 public void c206_test() {
