@@ -4,6 +4,13 @@ import java.util.Iterator;
 
 public class C206_CaseStudy {
 
+	private static final int OPTION_REGISTER = 5;
+	private static final int OPTION_LOGIN = 4;
+	private static final int OPTION_DELETE = 3;
+	private static final int OPTION_VIEW = 2;
+	private static final int OPTION_ADD = 1;
+	private static final int OPTION_EXIT = 6;
+
 	public static void main(String[] args) {
 
 		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
@@ -16,13 +23,14 @@ public class C206_CaseStudy {
 		registeredUsers.add(new User("WeiSiang", "ws@gmail.com", 12345, "jalan123", "lol123"));
 		String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote", "Service" };
 		serviceList.add(new Service("Cleaning house", "clean backyard", "jurong east", 100.00));
-		requesttList.add(new Request(1, "WeiSiang", "Clean", "Clean backyard", "pending"));
+		ArrayList<Request> requestList = requesttList;
+		requestList.add(new Request(1, "WeiSiang", "Clean", "Clean backyard", "pending"));
 		int option = 0;
-		while (option != 6) {
+		while (option != OPTION_EXIT) {
 			Menu();
 			option = Helper.readInt("Please enter the number: ");
 
-			if (option == 1) {
+			if (option == OPTION_ADD) {
 				System.out.println("\n");
 				for (int i = 0; i < list.length; i++) {
 					System.out.println(i + 1 + ":Add " + list[i]);
@@ -35,16 +43,7 @@ public class C206_CaseStudy {
 					addAppointment(appointmentList, addApointment1);
 
 				} else if (which == 3) {
-					String username = Helper.readString("Please enter your username > ");
-					
-					Request r = inputRequest(username, requesttList.size()+1);
-
-					if (r != null) {
-						C206_CaseStudy.addRequest(requesttList, r);
-						System.out.println("Request added");
-					} else {
-						System.out.println("Error adding request. Please check your input.");
-					}
+					doAddRequest(requestList);
 				} else if (which == 4) {
 					//
 					String CompanyName = Helper.readString("Enter your company name: ");
@@ -62,7 +61,7 @@ public class C206_CaseStudy {
 					System.out.println("Service added.");
 				}
 				// View
-			} else if (option == 2) {
+			} else if (option == OPTION_VIEW) {
 				System.out.println("\n");
 				for (int i = 0; i < list.length; i++) {
 					System.out.println(i + 1 + ":View " + list[i]);
@@ -76,7 +75,7 @@ public class C206_CaseStudy {
 
 				} else if (which == 3) {
 					String username = Helper.readString("Please enter the username's requests you want to display:");
-					C206_CaseStudy.viewAllRequest(requesttList, username);
+					C206_CaseStudy.viewAllRequest(requestList, username);
 
 				} else if (which == 4) {
 					C206_CaseStudy.viewServiceProvider(SP_List);
@@ -86,7 +85,7 @@ public class C206_CaseStudy {
 					C206_CaseStudy.viewAllService(serviceList);
 				}
 				// Delete
-			} else if (option == 3) {
+			} else if (option == OPTION_DELETE) {
 				System.out.println("\n");
 				for (int i = 0; i < list.length; i++) {
 					System.out.println(i + 1 + ":Delete " + list[i]);
@@ -100,20 +99,7 @@ public class C206_CaseStudy {
 					deleteAppointment(appointmentList, addApointment1);
 
 				} else if (which == 3) {
-					System.out.println("Delete Request");
-					Helper.line(80, "-");
-					System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s", "ID", "Username", "Service",
-							"Description", "Status"));
-					Helper.line(80, "-");
-					for (int n = 0; n < requesttList.size(); n++) {
-						System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s\n", n + 1,
-								requesttList.get(n).getname(), requesttList.get(n).getRequestService(),
-								requesttList.get(n).getRequestDescription(), requesttList.get(n).getRequestStatus()));
-					}
-					String username = Helper.readString("Please enter the username: ");
-					int removeID = Helper.readInt("Please enter the ID to remove: ");
-
-					C206_CaseStudy.deleteRequest(requesttList, username, removeID);
+					doDeleteRequest(requestList);
 
 				} else if (which == 4) {
 					String CompanyName = Helper.readString("Enter your company's name: ");
@@ -133,7 +119,7 @@ public class C206_CaseStudy {
 			}
 
 			// Login
-			if (option == 4) {
+			if (option == OPTION_LOGIN) {
 				String loginNAME = "";
 				String loginAs = "";
 
@@ -180,7 +166,7 @@ public class C206_CaseStudy {
 					System.out.println("3. Add request");
 					System.out.println("4. Deactivate account");
 					System.out.println("5. Update account");
-					if (requesttList.size() != 0) {
+					if (requestList.size() != 0) {
 						System.out.println("6. View Request");
 					}
 
@@ -192,7 +178,7 @@ public class C206_CaseStudy {
 					} else if (navigate == 3) {
 						C206_CaseStudy.viewAllService(serviceList);
 						Request r = inputRequest(loginUSER.getname(), navigate);
-						C206_CaseStudy.addRequest(requesttList, r);
+						C206_CaseStudy.addRequest(requestList, r);
 						System.out.println("Request added");
 					} else if (navigate == 4) {
 						System.out.println("Are you sure you want delete account?(yes/no)");
@@ -208,7 +194,7 @@ public class C206_CaseStudy {
 							deleteUser(registeredUsers, removeID + 1);
 						}
 					} else if (navigate == 6) {
-						C206_CaseStudy.viewAllRequest(requesttList, loginUSER.getname());
+						C206_CaseStudy.viewAllRequest(requestList, loginUSER.getname());
 					} else if (navigate == 5) {
 						updateUser(registeredUsers, UserID, inputupdateUser(registeredUsers, UserID));
 					}
@@ -217,7 +203,7 @@ public class C206_CaseStudy {
 
 			}
 
-			if (option == 5) {
+			if (option == OPTION_REGISTER) {
 				setHeader("Register User");
 				System.out.println("Alert! email must end with @gmail.com");
 				String username = Helper.readString("\nPlease enter username: ");
@@ -229,6 +215,36 @@ public class C206_CaseStudy {
 				addUser(registeredUsers, userADD);
 
 			}
+		}
+	}
+
+	private static void doDeleteRequest(ArrayList<Request> requestList) {
+		System.out.println("Delete Request");
+		Helper.line(80, "-");
+		System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s", "ID", "Username", "Service",
+				"Description", "Status"));
+		Helper.line(80, "-");
+		for (int n = 0; n < requestList.size(); n++) {
+			System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s\n", n + 1,
+					requestList.get(n).getname(), requestList.get(n).getRequestService(),
+					requestList.get(n).getRequestDescription(), requestList.get(n).getRequestStatus()));
+		}
+		String username = Helper.readString("Please enter the username: ");
+		int removeID = Helper.readInt("Please enter the ID to remove: ");
+
+		C206_CaseStudy.deleteRequest(requestList, username, removeID);
+	}
+
+	private static void doAddRequest(ArrayList<Request> requestList) {
+		String username = Helper.readString("Please enter your username > ");
+		
+		Request r = inputRequest(username, requestList.size()+1);
+
+		if (r != null) {
+			C206_CaseStudy.addRequest(requestList, r);
+			System.out.println("Request added");
+		} else {
+			System.out.println("Error adding request. Please check your input.");
 		}
 	}
 
@@ -483,8 +499,9 @@ public class C206_CaseStudy {
 	public static void addRequest(ArrayList<Request> requesttList, Request r) {
 		r.setId(nextRequestId);
 		Request request;
-		for (int i = 0; i < requesttList.size(); i++) {
-			request = requesttList.get(i);
+		ArrayList<Request> requestList = requesttList;
+		for (int i = 0; i < requestList.size(); i++) {
+			request = requestList.get(i);
 			if (request.getRequestDescription().equalsIgnoreCase(r.getRequestDescription()))
 				return;
 		}
@@ -492,18 +509,25 @@ public class C206_CaseStudy {
 			return;
 		}
 		nextRequestId++;
-		requesttList.add(r);
+		requestList.add(r);
 
 	}
 
 	public static String retrieveAllRequest(ArrayList<Request> requesttList, String username) {
 		String output = "";
-		for (int i = 0; i < requesttList.size(); i++) {
-			Request request = requesttList.get(i);
+		ArrayList<Request> requestList = requesttList;
+		int size = requestList.size();
+		for (int i = 0; i < size; i++) {
+			Request latestRequest = requestList.get(i);
+			Request request = latestRequest;
 			if (request.getname().equalsIgnoreCase(username)) {
-				output += String.format("%-5d %-20s %-20s %-20s %-20s\n", requesttList.get(i).getRequestId(),
-						request.getname(), requesttList.get(i).getRequestService(),
-						requesttList.get(i).getRequestDescription(), requesttList.get(i).getRequestStatus());
+				int requestId = latestRequest.getRequestId();
+				String requestService = latestRequest.getRequestService();
+				String requestDescription = latestRequest.getRequestDescription();
+				String requestStatus = latestRequest.getRequestStatus();
+				output += String.format("%-5d %-20s %-20s %-20s %-20s\n", requestId,
+						request.getname(), requestService,
+						requestDescription, requestStatus);
 			}
 		}
 		return output;
