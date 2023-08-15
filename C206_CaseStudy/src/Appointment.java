@@ -3,9 +3,9 @@
  * I do not copy or allow others to copy my code. 
  * I understand that copying code is considered as plagiarism.
  * 
- * Student Name: Tan Ying Xi
- * Student ID: 22023689
- * Class: W65C Day 4
+ * Student Name: 65937
+ * Student ID: {type your id here}
+ * Class: {type your class here}
  * Date/Time created: Saturday 08-07-2023 14:01
  */
 
@@ -30,21 +30,6 @@ public String getDate() {
 }
 
 public String getTime() {
-<<<<<<< HEAD
-	return time;
-}
-
-public String getAdditional_details() {
-  return additional_details;
-}
-
-public String toStirng() {
-  String output = super.toString();
-  output = String.format("Date: " + getDate() + "\n Time: " + getTime() + "\n Additional Details: " + getAdditional_details());
-  
-  return output;
-}
-=======
   return time;
 }
 
@@ -59,6 +44,5 @@ public String toStirng() {
   return output;
 }
 
->>>>>>> branch 'master' of https://github.com/nicholas-nilz/C206_CaseStudy.git
 
 }

@@ -13,28 +13,22 @@
  * @author 65937
  *
  */
-public class Service_Provider {
-	String companyName;
-	String password;
-	String service_category;
-	String SP_location;
-	public Service_Provider(String companyName,String password,String service_category,String SP_location) {
-		this.companyName=companyName;
-		this.password=password;
-		this.service_category=service_category;
-		this.SP_location=SP_location;
-	}
-	public String getcompanyName() {
-		return companyName;
-	}
-	public String getpassword() {
-		return password;
-	}
-	public String getservice_category() {
-		return service_category;
-	}
-	public String getLocation() {
-		return SP_location;
-	}
+public class Service_Provider extends Service {
+    private String companyName;
+    private String password;
 
+    public Service_Provider(String companyName, String password, String type, String description, String location, double budget) {
+        super(type, description, location, budget);
+        this.companyName = companyName;
+        this.password = password;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
+
