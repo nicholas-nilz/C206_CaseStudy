@@ -13,12 +13,15 @@
  * @author 65937
  *
  */
+// Updated SP Class
 public class Service_Provider extends Service {
     private String companyName;
     private String password;
+    private String location;
 
-    public Service_Provider(String companyName, String password, String type, String description, String location, double budget) {
-        super(type, description, location, budget);
+    public Service_Provider( String companyName, String password, String location, String type, String description,double budget) {
+        super(type, description,budget);
+        this.location=location;
         this.companyName = companyName;
         this.password = password;
     }
@@ -29,6 +32,9 @@ public class Service_Provider extends Service {
 
     public String getPassword() {
         return password;
+    }
+    public String getlocation() {
+    	return location;
     }
 }
 
