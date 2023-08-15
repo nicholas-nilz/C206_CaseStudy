@@ -13,6 +13,7 @@
  * @author 65937
  *
  */
+
 public class Request extends User {
 	private int requestId;
 	private String requestService;
@@ -51,3 +52,5 @@ public class Request extends User {
 	public void setId(int nextRequestId) {
 	}
 }
+ 
+

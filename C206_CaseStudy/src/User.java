@@ -20,7 +20,6 @@ public class User {
 	private String address;
 	private String password;
 
-
 	public User(String username, String email, int contact_Number, String address, String password) {
 		this.username = username;
 		this.email = email;
@@ -30,9 +29,6 @@ public class User {
 
 	}
 
-	/**
-	 * @param username2
-	 */
 	public User(String username2) {
 		this.username = username2;
 	}
@@ -55,6 +51,26 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setUsername(String x) {
+		username = x;
+	}
+
+	public void setPassword(String x) {
+		password = x;
+	}
+
+	public void setAddress(String x) {
+		address = x;
+	}
+
+	public void setContact(int x) {
+		contact_Number = x;
+	}
+
+	public void setEmail(String x) {
+		email = x;
 	}
 
 }

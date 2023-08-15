@@ -13,6 +13,7 @@
  * @author 65937
  *
  */
+
 public class Service {
  String S_type;
  String S_description;
@@ -48,4 +49,3 @@ public String toString() {
  return output;
 }
 }
-
