@@ -12,17 +12,16 @@ public class C206_CaseStudy {
 	private static final int OPTION_EXIT = 6;
 
 	public static void main(String[] args) {
-
 		ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
 		ArrayList<quote> quoteList = new ArrayList<quote>();
 		ArrayList<Request> requesttList = new ArrayList<Request>();
 		ArrayList<Service> serviceList = new ArrayList<Service>();
 		ArrayList<User> registeredUsers = new ArrayList<User>();
 		ArrayList<Service_Provider> SP_List = new ArrayList<Service_Provider>();
-		SP_List.add(new Service_Provider("Nippon", "qwerty", "Cleaning", "Jurong East"));
+		SP_List.add(new Service_Provider("Nippon", "qwerty", "Cleaning","toilet", "Jurong East",100.0));
 		registeredUsers.add(new User("WeiSiang", "ws@gmail.com", 12345, "jalan123", "lol123"));
 		String[] list = new String[] { "User", "Appointment", "Request", "Service_Provider", "Quote", "Service" };
-		serviceList.add(new Service("Cleaning house", "clean backyard", "jurong east", 100.00));
+		serviceList.add(new Service("Cleaning house", "clean backyard", 100.00));
 		ArrayList<Request> requestList = requesttList;
 		requestList.add(new Request(1, "WeiSiang", "Clean", "Clean backyard", "pending"));
 		int option = 0;
@@ -46,9 +45,11 @@ public class C206_CaseStudy {
 					doAddRequest(requestList);
 				} else if (which == 4) {
 					//
-					String CompanyName = Helper.readString("Enter your company name: ");
-					Service_Provider sp = inputServiceProvider(CompanyName);
-					addServiceProvider(SP_List, sp);
+					String type=Helper.readString("Enter your category: ");
+					String description=Helper.readString("Enter description: ");
+					double budget=Helper.readDouble("Enter price:");
+			    	Service_Provider sp= inputServiceProvider(type,description, budget);
+			    	addServiceProvider(SP_List,sp);
 				} else if (which == 5) {
 					quote quoteinsert = inputQuote();
 					C206_CaseStudy.addQuote(quoteList, quoteinsert);
@@ -78,7 +79,7 @@ public class C206_CaseStudy {
 					C206_CaseStudy.viewAllRequest(requestList, username);
 
 				} else if (which == 4) {
-					C206_CaseStudy.viewServiceProvider(SP_List);
+					C206_CaseStudy.viewAllServiceProvider(SP_List);
 				} else if (which == 5) {
 					C206_CaseStudy.viewALLquotes(quoteList);
 				} else if (which == 6) {
@@ -102,9 +103,8 @@ public class C206_CaseStudy {
 					doDeleteRequest(requestList);
 
 				} else if (which == 4) {
-					String CompanyName = Helper.readString("Enter your company's name: ");
-					Service_Provider sp = inputServiceProvider(CompanyName);
-					C206_CaseStudy.deleteServiceProvider(SP_List, sp, CompanyName);
+					String name=Helper.readString("Enter your Company Name to delete: ");
+				     C206_CaseStudy.deleteServiceProvider(SP_List,name );
 				} else if (which == 5) {
 					quote quoteinsert = inputQuote();
 					C206_CaseStudy.deleteQuote(quoteList, quoteinsert);
@@ -221,13 +221,13 @@ public class C206_CaseStudy {
 	private static void doDeleteRequest(ArrayList<Request> requestList) {
 		System.out.println("Delete Request");
 		Helper.line(80, "-");
-		System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s", "ID", "Username", "Service",
-				"Description", "Status"));
+		System.out.println(
+				String.format("%-5s %-20s %-20s %-20s %-20s", "ID", "Username", "Service", "Description", "Status"));
 		Helper.line(80, "-");
 		for (int n = 0; n < requestList.size(); n++) {
-			System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s\n", n + 1,
-					requestList.get(n).getname(), requestList.get(n).getRequestService(),
-					requestList.get(n).getRequestDescription(), requestList.get(n).getRequestStatus()));
+			System.out.println(String.format("%-5s %-20s %-20s %-20s %-20s\n", n + 1, requestList.get(n).getname(),
+					requestList.get(n).getRequestService(), requestList.get(n).getRequestDescription(),
+					requestList.get(n).getRequestStatus()));
 		}
 		String username = Helper.readString("Please enter the username: ");
 		int removeID = Helper.readInt("Please enter the ID to remove: ");
@@ -237,8 +237,8 @@ public class C206_CaseStudy {
 
 	private static void doAddRequest(ArrayList<Request> requestList) {
 		String username = Helper.readString("Please enter your username > ");
-		
-		Request r = inputRequest(username, requestList.size()+1);
+
+		Request r = inputRequest(username, requestList.size() + 1);
 
 		if (r != null) {
 			C206_CaseStudy.addRequest(requestList, r);
@@ -418,11 +418,11 @@ public class C206_CaseStudy {
 		String LoginUsername = "";
 
 		for (int x = 0; x < SP_List.size(); x++) {
-			System.out.println(username.equals(SP_List.get(x).getcompanyName()));
-			System.out.println(password.equals(SP_List.get(x).getpassword()));
+			System.out.println(username.equals(SP_List.get(x).getCompanyName()));
+			System.out.println(password.equals(SP_List.get(x).getPassword()));
 
-			if (username.equals(SP_List.get(x).getcompanyName()) && password.equals(SP_List.get(x).getpassword())) {
-				LoginUsername = SP_List.get(x).getcompanyName();
+			if (username.equals(SP_List.get(x).getCompanyName()) && password.equals(SP_List.get(x).getPassword())) {
+				LoginUsername = SP_List.get(x).getCompanyName();
 				break;
 			}
 
@@ -525,8 +525,7 @@ public class C206_CaseStudy {
 				String requestService = latestRequest.getRequestService();
 				String requestDescription = latestRequest.getRequestDescription();
 				String requestStatus = latestRequest.getRequestStatus();
-				output += String.format("%-5d %-20s %-20s %-20s %-20s\n", requestId,
-						request.getname(), requestService,
+				output += String.format("%-5d %-20s %-20s %-20s %-20s\n", requestId, request.getname(), requestService,
 						requestDescription, requestStatus);
 			}
 		}
@@ -601,88 +600,95 @@ public class C206_CaseStudy {
 	}
 
 	public static Appointment inputAppointment() {
+		String username = Helper.readString("Enter Username > ");
 		String date = Helper.readString("Enter Date > ");
 		String time = Helper.readString("Enter Time > ");
 		String additional_details = Helper.readString("Enter Additional Details > ");
 
-		Appointment A = new Appointment(date, time, additional_details);
+		Appointment A = new Appointment(username, date, time, additional_details);
 		return A;
 
 	}
 
 	// Service Provider
-	public static Service_Provider inputServiceProvider(String CompanyName) {
-		String password = Helper.readString("Enter password: ");
-		String category = Helper.readString("Enter a category: ");
-		String location = Helper.readString("Enter your address: ");
+		public static Service_Provider inputServiceProvider(String type,String description,double budget) {
+			 String CompanyName = Helper.readString("Enter Company Name: ");
+			  String password=Helper.readString("Enter the password: ");
+			  String location=Helper.readString("Enter address: ");
 
-		Service_Provider sp = new Service_Provider(CompanyName, password, category, location);
-		return sp;
+			  
 
-	}
+			  Service_Provider sp = new Service_Provider(CompanyName, password, type,description, location,budget);
+			  return sp;
 
-	public static void addServiceProvider(ArrayList<Service_Provider> SP_List, Service_Provider sp) {
-		for (Service_Provider provider : SP_List) {
-			if (provider.getcompanyName().equalsIgnoreCase(sp.getcompanyName())) {
-				System.out.println("Service Provider already exists.");
+		}
+
+		public static void addServiceProvider(ArrayList<Service_Provider> SP_List, Service_Provider sp) {
+			Service_Provider provider;
+			for (int i = 0; i < SP_List.size(); i++) {
+				provider = SP_List.get(i);
+				if (provider.getCompanyName().equalsIgnoreCase(sp.getCompanyName()))
+					return;
+			}
+			if ((sp.getType().isEmpty()) || (sp.getCompanyName().isEmpty())) {
 				return;
 			}
+		
+
+
+			if (sp.getCompanyName().isEmpty() || sp.getPassword().isEmpty()) {
+				System.out.println("Company Name and Password cannot be empty.");
+				return;
+			}
+
+			SP_List.add(sp);
+			System.out.println("Service Provider added successfully.");
 		}
 
-		if (sp.getcompanyName().isEmpty() || sp.getpassword().isEmpty()) {
-			System.out.println("Company Name and Password cannot be empty.");
-			return;
-		}
 
-		SP_List.add(sp);
-		System.out.println("Service Provider added successfully.");
-	}
 
-	public static String retrieveServiceProvider(ArrayList<Service_Provider> SP_List) {
+	public static String retrieveAllServiceProvider(ArrayList<Service_Provider> SP_List) {
+		// TODO Auto-generated method stub
 		String output = "";
-
-		for (Service_Provider sp : SP_List) {
-			output += String.format("%-20s %-20s %-20s %-20s\n", sp.getcompanyName(), sp.getpassword(),
-					sp.getservice_category(), sp.getLocation());
-		}
+		// write your code here
+		for (int i = 0; i < SP_List.size(); i++) {
+			Service_Provider sp = SP_List.get(i);
+			if (sp!=null) {
+				output += String.format("%-20s %-20s %-20s %-20s\n",
+						sp.getCompanyName(), sp.getPassword(),sp.getType(),
+						sp.getlocation());
+			}}
 
 		return output;
+		
 	}
 
-	public static void viewServiceProvider(ArrayList<Service_Provider> SP_List) {
-		C206_CaseStudy.setHeader("SERVICE PROVIDERS");
-		String output = String.format("%-20s %-20s %-20s %-20s\n", "COMPANY NAME", "PASSWORD", "CATEGORY", "LOCATION");
-		output += retrieveServiceProvider(SP_List);
 
-		System.out.println(output);
-	}
-
-	public static void deleteServiceProvider(ArrayList<Service_Provider> SP_List, Service_Provider SPdelete,
-			String CompanyName) {
-		Iterator<Service_Provider> iterator = SP_List.iterator();
-		boolean found = false; // Variable to track if the Service_Provider has been found and deleted
-		while (iterator.hasNext()) {
-			Service_Provider delete = iterator.next();
-			if (delete.getcompanyName().equals(CompanyName)
-					&& delete.service_category.equalsIgnoreCase(SPdelete.getservice_category())) {
-				iterator.remove();
-				found = true; // Mark the Service_Provider as found and deleted
-				break; // Exit the loop after deleting one Service_Provider
-			}
+		public static void viewAllServiceProvider(ArrayList<Service_Provider> SP_List) {
+			// TODO Auto-generated method stub
+			C206_CaseStudy.setHeader("SERVICE LIST");
+			String output = String.format("%-20s %-20s %-20s %-20s\n", "Company Name", "Service", "Location","Type");
+			output += retrieveAllServiceProvider(SP_List);
+			System.out.println(output);
 		}
-		if (found) {
-			System.out.println("Service Provider has been deleted.");
-		} else {
-			System.out.println("Service Provider not found.");
+
+		public static void deleteServiceProvider(ArrayList<Service_Provider> SP_List, String name) {
+		   for (int i=SP_List.size()-1;i>=0;i--) {
+			   Service_Provider provider=SP_List.get(i);
+			   if(provider.getCompanyName().equalsIgnoreCase(name)) {
+				   SP_List.remove(i);
+				   System.out.println("Service Provider Deleted :3");
+				   return;
+			   }
+		   }
+		   System.out.println("Service Provider not found :(");
 		}
-	}
 
 	public static Service inputService(String type) {
 		String description = Helper.readString("Enter description: ");
-		String location = Helper.readString("Enter location: ");
 		float budget = Helper.readFloat("Enter budget: ");
 
-		Service s = new Service(type, description, location, budget);
+		Service s = new Service(type, description, budget);
 		return s;
 	}
 
@@ -705,15 +711,14 @@ public class C206_CaseStudy {
 	public static String retrieveAllService(ArrayList<Service> serviceList) {
 		String output = "";
 		for (Service s : serviceList) {
-			output += String.format("%-20s %-20s %-20s %-20s\n", s.getType(), s.getDescription(), s.getLocation(),
-					s.getBudget());
+			output += String.format("%-20s %-20s %-20s\n", s.getType(), s.getDescription(), s.getBudget());
 		}
 		return output;
 	}
 
 	public static void viewAllService(ArrayList<Service> serviceList) {
 		C206_CaseStudy.setHeader("Service List");
-		String output = String.format("%-20s %-20s %-20s %-20s\n", "Type", "Description", "Location", "Budget");
+		String output = String.format("%-20s %-20s %-20s\n", "Type", "Description", "Budget");
 		output += retrieveAllService(serviceList);
 		System.out.println(output);
 	}
