@@ -17,13 +17,11 @@
 public class Service {
  String S_type;
  String S_description;
- String S_location;
  double S_budget;
 
-public Service(String type, String description, String location, double budget) {
+public Service(String type, String description, double budget) {
  this.S_type=type;
  this.S_description=description;
- this.S_location=location;
  this.S_budget=budget;
 }
 
@@ -34,17 +32,13 @@ public String getDescription () {
  return S_description;
 }
 
-public String getLocation() {
- return S_location;
-}
-
 public double getBudget() {
  return S_budget;
 }
 
 public String toString() {
  String output=super.toString();
- output=String.format("%-63s %-20s", output,S_type, S_description,S_location,S_budget);
+ output=String.format("%-63s %-20s", output,S_type, S_description,S_budget);
  
  return output;
 }

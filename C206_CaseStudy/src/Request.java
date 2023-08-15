@@ -1,5 +1,3 @@
-import java.util.Date;
-
 /*
  * I declare that this code was written by me. 
  * I do not copy or allow others to copy my code. 
@@ -15,6 +13,7 @@ import java.util.Date;
  * @author 65937
  *
  */
+
 public class Request extends User {
 	private int requestId;
 	private String requestService;
